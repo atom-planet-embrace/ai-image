@@ -1,5 +1,6 @@
+use alloc::{borrow::ToOwned, string::ToString, borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
 use byteorder_lite::{LittleEndian, WriteBytesExt};
-use std::io::{self, Write};
+use no_std_io::io::{self, Write};
 
 use crate::error::{
     EncodingError, ImageError, ImageFormatHint, ImageResult, ParameterError, ParameterErrorKind,
@@ -365,7 +366,7 @@ mod tests {
 
     use crate::ExtendedColorType;
     use crate::ImageDecoder as _;
-    use std::io::Cursor;
+    use no_std_io::io::Cursor;
 
     fn round_trip_image(image: &[u8], width: u32, height: u32, c: ExtendedColorType) -> Vec<u8> {
         let mut encoded_data = Vec::new();

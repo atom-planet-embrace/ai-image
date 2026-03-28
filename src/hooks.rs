@@ -1,6 +1,7 @@
 //! This module provides a way to register decoding hooks for image formats not directly supported
 //! by this crate.
 
+use alloc::{boxed::Box, string::String, vec::Vec};
 use std::{
     collections::HashMap,
     ffi::{OsStr, OsString},
@@ -23,44 +24,44 @@ pub(crate) static GUESS_FORMAT_HOOKS: RwLock<Vec<DetectionHook>> = RwLock::new(V
 /// A wrapper around a type-erased trait object that implements `Read` and `Seek`.
 pub struct GenericReader<'a>(pub(crate) BufReader<Box<dyn ReadSeek + 'a>>);
 impl Read for GenericReader<'_> {
-    fn read(&mut self, buf: &mut [u8]) -> std::io::Result<usize> {
+    fn read(&mut self, buf: &mut [u8]) -> no_std_io::io::Result<usize> {
         self.0.read(buf)
     }
-    fn read_vectored(&mut self, bufs: &mut [std::io::IoSliceMut<'_>]) -> std::io::Result<usize> {
+    fn read_vectored(&mut self, bufs: &mut [no_std_io::io::IoSliceMut<'_>]) -> no_std_io::io::Result<usize> {
         self.0.read_vectored(bufs)
     }
-    fn read_to_end(&mut self, buf: &mut Vec<u8>) -> std::io::Result<usize> {
+    fn read_to_end(&mut self, buf: &mut Vec<u8>) -> no_std_io::io::Result<usize> {
         self.0.read_to_end(buf)
     }
-    fn read_to_string(&mut self, buf: &mut String) -> std::io::Result<usize> {
+    fn read_to_string(&mut self, buf: &mut String) -> no_std_io::io::Result<usize> {
         self.0.read_to_string(buf)
     }
-    fn read_exact(&mut self, buf: &mut [u8]) -> std::io::Result<()> {
+    fn read_exact(&mut self, buf: &mut [u8]) -> no_std_io::io::Result<()> {
         self.0.read_exact(buf)
     }
 }
 impl BufRead for GenericReader<'_> {
-    fn fill_buf(&mut self) -> std::io::Result<&[u8]> {
+    fn fill_buf(&mut self) -> no_std_io::io::Result<&[u8]> {
         self.0.fill_buf()
     }
     fn consume(&mut self, amt: usize) {
         self.0.consume(amt)
     }
-    fn read_until(&mut self, byte: u8, buf: &mut Vec<u8>) -> std::io::Result<usize> {
+    fn read_until(&mut self, byte: u8, buf: &mut Vec<u8>) -> no_std_io::io::Result<usize> {
         self.0.read_until(byte, buf)
     }
-    fn read_line(&mut self, buf: &mut String) -> std::io::Result<usize> {
+    fn read_line(&mut self, buf: &mut String) -> no_std_io::io::Result<usize> {
         self.0.read_line(buf)
     }
 }
 impl Seek for GenericReader<'_> {
-    fn seek(&mut self, pos: std::io::SeekFrom) -> std::io::Result<u64> {
+    fn seek(&mut self, pos: no_std_io::io::SeekFrom) -> no_std_io::io::Result<u64> {
         self.0.seek(pos)
     }
-    fn rewind(&mut self) -> std::io::Result<()> {
+    fn rewind(&mut self) -> no_std_io::io::Result<()> {
         self.0.rewind()
     }
-    fn stream_position(&mut self) -> std::io::Result<u64> {
+    fn stream_position(&mut self) -> no_std_io::io::Result<u64> {
         self.0.stream_position()
     }
 
@@ -146,7 +147,7 @@ pub fn register_format_detection_hook(
 mod tests {
     use super::*;
     use crate::{load_from_memory, ColorType, DynamicImage, ImageReader};
-    use std::io::Cursor;
+    use no_std_io::io::Cursor;
 
     const MOCK_HOOK_EXTENSION: &str = "MOCKHOOK";
 

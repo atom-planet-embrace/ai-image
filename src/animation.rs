@@ -1,5 +1,6 @@
-use std::cmp::Ordering;
-use std::time::Duration;
+use alloc::{boxed::Box, string::String, vec, vec::Vec};
+use core::cmp::Ordering;
+use core::time::Duration;
 
 use crate::error::ImageResult;
 use crate::RgbaImage;
@@ -165,7 +166,7 @@ impl Delay {
     /// # Examples
     ///
     /// ```
-    /// use std::time::Duration;
+    /// use core::time::Duration;
     /// use image::Delay;
     ///
     /// let duration = Duration::from_millis(20);
@@ -219,7 +220,7 @@ impl Delay {
     /// Note that `denom_bound` bounds nominator and denominator of all intermediate
     /// approximations and the end result.
     fn closest_bounded_fraction(denom_bound: u32, nom: u32, denom: u32) -> (u32, u32) {
-        use std::cmp::Ordering::*;
+        use core::cmp::Ordering::*;
         assert!(0 < denom);
         assert!(0 < denom_bound);
         assert!(nom < denom);

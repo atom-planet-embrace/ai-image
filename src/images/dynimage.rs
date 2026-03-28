@@ -1,5 +1,8 @@
+use alloc::{borrow::ToOwned, boxed::Box, string::String, vec, vec::Vec};
+#[cfg(feature = "std")]
 use std::fs::File;
-use std::io::{self, BufWriter, Seek, Write};
+use no_std_io::io::{self, Seek, Write};
+#[cfg(feature = "std")]
 use std::path::Path;
 
 use crate::color::{self, FromColor, IntoColor};
@@ -19,8 +22,10 @@ use crate::{
     imageops,
     metadata::{Cicp, CicpColorPrimaries, CicpTransferCharacteristics},
     ConvertColorOptions, ExtendedColorType, GenericImage, GenericImageView, ImageDecoder,
-    ImageEncoder, ImageFormat, ImageReader, Luma, LumaA,
+    ImageEncoder, ImageFormat, Luma, LumaA,
 };
+#[cfg(feature = "std")]
+use crate::ImageReader;
 
 /// A Dynamic Image
 ///
@@ -1142,7 +1147,7 @@ impl DynamicImage {
     /// e.g. to correctly display a photo taken by a smartphone camera:
     ///
     /// ```
-    /// # fn only_check_if_this_compiles() -> Result<(), Box<dyn std::error::Error>> {
+    /// # fn only_check_if_this_compiles() -> Result<(), Box<dyn core::error::Error>> {
     /// use image::{DynamicImage, ImageReader, ImageDecoder};
     ///
     /// let mut decoder = ImageReader::open("file.jpg")?.into_decoder()?;
@@ -1391,6 +1396,7 @@ impl DynamicImage {
     /// Unlike other encoding methods in this crate, methods on `DynamicImage` try to automatically
     /// convert the image to some color type supported by the encoder. This may result in a loss of
     /// precision or the removal of the alpha channel.
+    #[cfg(feature = "std")]
     pub fn save<Q>(&self, path: Q) -> ImageResult<()>
     where
         Q: AsRef<Path>,
@@ -1406,11 +1412,12 @@ impl DynamicImage {
     /// Unlike other encoding methods in this crate, methods on `DynamicImage` try to automatically
     /// convert the image to some color type supported by the encoder. This may result in a loss of
     /// precision or the removal of the alpha channel.
+    #[cfg(feature = "std")]
     pub fn save_with_format<Q>(&self, path: Q, format: ImageFormat) -> ImageResult<()>
     where
         Q: AsRef<Path>,
     {
-        let file = &mut BufWriter::new(File::create(path)?);
+        let file = &mut std::io::BufWriter::new(File::create(path)?);
         let encoder = encoder_for_format(format, file)?;
         self.write_with_encoder_impl(encoder)
     }
@@ -1629,6 +1636,7 @@ fn decoder_to_image<I: ImageDecoder>(decoder: I) -> ImageResult<DynamicImage> {
 ///
 /// Try [`ImageReader`] for more advanced uses, including guessing the format based on the file's
 /// content before its path.
+#[cfg(feature = "std")]
 pub fn open<P>(path: P) -> ImageResult<DynamicImage>
 where
     P: AsRef<Path>,
@@ -1641,6 +1649,7 @@ where
 ///
 /// Try [`ImageReader`] for more advanced uses, including guessing the format based on the file's
 /// content before its path or manually supplying the format.
+#[cfg(feature = "std")]
 pub fn image_dimensions<P>(path: P) -> ImageResult<(u32, u32)>
 where
     P: AsRef<Path>,
@@ -1673,20 +1682,22 @@ pub fn write_buffer_with_format<W: Write + Seek>(
 /// TGA is not supported by this function.
 ///
 /// Try [`ImageReader`] for more advanced uses.
+#[cfg(feature = "std")]
 pub fn load_from_memory(buffer: &[u8]) -> ImageResult<DynamicImage> {
-    ImageReader::new(io::Cursor::new(buffer))
+    ImageReader::new(std::io::Cursor::new(buffer))
         .with_guessed_format()?
         .decode()
 }
 
 /// Create a new image from a byte slice
 ///
-/// This is just a simple wrapper that constructs an `std::io::Cursor` around the buffer and then
+/// This is just a simple wrapper that constructs an `no_std_io::io::Cursor` around the buffer and then
 /// calls `load` with that reader.
 ///
 /// Try [`ImageReader`] for more advanced uses.
 ///
 /// [`load`]: fn.load.html
+#[cfg(feature = "std")]
 #[inline(always)]
 pub fn load_from_memory_with_format(buf: &[u8], format: ImageFormat) -> ImageResult<DynamicImage> {
     // Note: this function (and `load_from_memory`) were supposed to be generic over `AsRef<[u8]>`

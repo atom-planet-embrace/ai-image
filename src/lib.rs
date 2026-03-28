@@ -16,7 +16,7 @@
 //! Load images using [`ImageReader`](crate::ImageReader):
 //!
 //! ```rust,no_run
-//! use std::io::Cursor;
+//! use no_std_io::io::Cursor;
 //! use image::ImageReader;
 //! # fn main() -> Result<(), image::ImageError> {
 //! # let bytes = vec![0u8];
@@ -30,7 +30,7 @@
 //! And save them using [`save`] or [`write_to`] methods:
 //!
 //! ```rust,no_run
-//! # use std::io::{Write, Cursor};
+//! # use no_std_io::io::{Write, Cursor};
 //! # use image::{DynamicImage, ImageFormat};
 //! # #[cfg(feature = "png")]
 //! # fn main() -> Result<(), image::ImageError> {
@@ -74,7 +74,7 @@
 //!
 //! Implementations of [`ImageEncoder`] provides low level control over encoding:
 //! ```rust,no_run
-//! # use std::io::Write;
+//! # use no_std_io::io::Write;
 //! # use image::DynamicImage;
 //! # use image::ImageEncoder;
 //! # #[cfg(feature = "jpeg")]
@@ -91,7 +91,7 @@
 //! While [`ImageDecoder`] and [`ImageDecoderRect`] give access to more advanced decoding options:
 //!
 //! ```rust,no_run
-//! # use std::io::{BufReader, Cursor};
+//! # use no_std_io::io::{BufReader, Cursor};
 //! # use image::DynamicImage;
 //! # use image::ImageDecoder;
 //! # #[cfg(feature = "png")]
@@ -111,6 +111,7 @@
 //! [`ImageDecoderRect`]: trait.ImageDecoderRect.html
 //! [`ImageDecoder`]: trait.ImageDecoder.html
 //! [`ImageEncoder`]: trait.ImageEncoder.html
+#![cfg_attr(not(test), no_std)]
 #![warn(missing_docs)]
 #![warn(unused_qualifications)]
 #![deny(unreachable_pub)]
@@ -118,6 +119,11 @@
 #![deny(missing_copy_implementations)]
 #![cfg_attr(all(test, feature = "benchmarks"), feature(test))]
 #![cfg_attr(docsrs, feature(doc_cfg))]
+
+extern crate alloc;
+
+#[cfg(feature = "std")]
+extern crate std;
 
 #[cfg(all(test, feature = "benchmarks"))]
 extern crate test;
@@ -154,19 +160,23 @@ pub use crate::flat::FlatSamples;
 pub use crate::traits::{EncodableLayout, Pixel, PixelWithColorType, Primitive};
 
 // Opening and loading images
+#[cfg(feature = "std")]
 pub use crate::images::dynimage::{
     image_dimensions, load_from_memory, load_from_memory_with_format, open,
-    write_buffer_with_format,
 };
-pub use crate::io::free_functions::{guess_format, load, save_buffer, save_buffer_with_format};
+pub use crate::images::dynimage::write_buffer_with_format;
+pub use crate::io::free_functions::guess_format;
+#[cfg(feature = "std")]
+pub use crate::io::free_functions::{load, save_buffer, save_buffer_with_format};
 
 pub use crate::io::{
     decoder::{AnimationDecoder, ImageDecoder, ImageDecoderRect},
     encoder::ImageEncoder,
     format::ImageFormat,
-    image_reader_type::ImageReader,
     limits::{LimitSupport, Limits},
 };
+#[cfg(feature = "std")]
+pub use crate::io::image_reader_type::ImageReader;
 
 pub use crate::images::dynimage::DynamicImage;
 
@@ -277,6 +287,7 @@ pub mod codecs {
 
 mod animation;
 mod color;
+#[cfg(feature = "std")]
 pub mod hooks;
 mod images;
 /// Deprecated io module the original io module has been renamed to `image_reader`.

@@ -1,3 +1,4 @@
+use alloc::{borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
 use super::header::{Header, ImageType, ALPHA_BIT_MASK};
 use crate::error::DecodingError;
 use crate::io::ReadExt;
@@ -8,7 +9,7 @@ use crate::{
     ImageDecoder, ImageFormat,
 };
 use byteorder_lite::ReadBytesExt;
-use std::io::{self, Read};
+use no_std_io::io::{self, Read};
 
 struct ColorMap {
     /// sizes in bytes
@@ -355,7 +356,7 @@ impl<R: Read> TgaDecoder<R> {
                 .zip(right_part.chunks_exact_mut(row_stride).rev())
             {
                 for (src, dst) in src.iter_mut().zip(dst.iter_mut()) {
-                    std::mem::swap(src, dst);
+                    core::mem::swap(src, dst);
                 }
             }
         }
@@ -372,7 +373,7 @@ impl<R: Read> TgaDecoder<R> {
                     .zip(right_part.chunks_exact_mut(self.raw_bytes_per_pixel).rev())
                 {
                     for (src, dst) in src.iter_mut().zip(dst.iter_mut()) {
-                        std::mem::swap(dst, src);
+                        core::mem::swap(dst, src);
                     }
                 }
             }

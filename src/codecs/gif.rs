@@ -10,8 +10,8 @@
 //! use image::codecs::gif::{GifDecoder, GifEncoder};
 //! use image::{ImageDecoder, AnimationDecoder};
 //! use std::fs::File;
-//! use std::io::BufReader;
-//! # fn main() -> std::io::Result<()> {
+//! use no_std_io::io::BufReader;
+//! # fn main() -> no_std_io::io::Result<()> {
 //! // Decode a gif into frames
 //! let file_in = BufReader::new(File::open("foo.gif")?);
 //! let mut decoder = GifDecoder::new(file_in).unwrap();
@@ -27,10 +27,11 @@
 //! ```
 #![allow(clippy::while_let_loop)]
 
-use std::io::{self, BufRead, Cursor, Read, Seek, Write};
-use std::marker::PhantomData;
-use std::mem;
-use std::num::NonZeroU32;
+use alloc::{borrow::ToOwned, string::ToString, borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
+use no_std_io::io::{self, BufRead, Cursor, Read, Seek, Write};
+use core::marker::PhantomData;
+use core::mem;
+use core::num::NonZeroU32;
 
 use gif::ColorOutput;
 use gif::{DisposalMethod, Frame};

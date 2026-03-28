@@ -5,9 +5,10 @@
 //!
 //! # Related Links
 //! * <http://partners.adobe.com/public/developer/tiff/index.html> - The TIFF specification
-use std::io::{self, BufRead, Cursor, Read, Seek, Write};
-use std::marker::PhantomData;
-use std::mem;
+use alloc::{borrow::ToOwned, string::ToString, borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
+use no_std_io::io::{self, BufRead, Cursor, Read, Seek, Write};
+use core::marker::PhantomData;
+use core::mem;
 
 use tiff::decoder::{Decoder, DecodingResult};
 use tiff::tags::Tag;
@@ -485,9 +486,9 @@ fn cmyk_to_rgb16(cmyk: &[u16; 4]) -> [u16; 3] {
 }
 
 /// Convert a slice of sample bytes to its semantic type, being a `Pod`.
-fn u8_slice_as_pod<P: bytemuck::Pod>(buf: &[u8]) -> ImageResult<std::borrow::Cow<'_, [P]>> {
+fn u8_slice_as_pod<P: bytemuck::Pod>(buf: &[u8]) -> ImageResult<alloc::borrow::Cow<'_, [P]>> {
     bytemuck::try_cast_slice(buf)
-        .map(std::borrow::Cow::Borrowed)
+        .map(alloc::borrow::Cow::Borrowed)
         .or_else(|err| {
             match err {
                 bytemuck::PodCastError::TargetAlignmentGreaterAndInputNotAligned => {
@@ -495,7 +496,7 @@ fn u8_slice_as_pod<P: bytemuck::Pod>(buf: &[u8]) -> ImageResult<std::borrow::Cow
                     // aligning it in the process. This is only done if the element count can be
                     // represented exactly.
                     let vec = bytemuck::allocation::pod_collect_to_vec(buf);
-                    Ok(std::borrow::Cow::Owned(vec))
+                    Ok(alloc::borrow::Cow::Owned(vec))
                 }
                 /* only expecting: bytemuck::PodCastError::OutputSliceWouldHaveSlop */
                 _ => {

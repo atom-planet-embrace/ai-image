@@ -1,5 +1,6 @@
 //! Insert line breaks between written buffers when they would overflow the line length.
-use std::io;
+use alloc::{borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
+use no_std_io::io;
 
 // The pnm standard says to insert line breaks after 70 characters. Assumes that no line breaks
 // are actually written. We have to be careful to fully commit buffers or not commit them at all,
@@ -93,7 +94,7 @@ impl<W: io::Write> Drop for AutoBreak<W> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::io::Write;
+    use no_std_io::io::Write;
 
     #[test]
     fn test_aligned_writes() {

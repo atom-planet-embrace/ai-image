@@ -1,4 +1,5 @@
-use std::io::{BufRead, Read, Seek};
+use alloc::{borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
+use no_std_io::io::{BufRead, Read, Seek};
 
 use image_webp::LoopCount;
 
@@ -180,7 +181,7 @@ mod tests {
             0x49, 0x54, 0x55, 0x50, 0x4c, 0x54, 0x59, 0x50, 0x45, 0x33, 0x37, 0x44, 0x4d, 0x46,
         ];
 
-        let data = std::io::Cursor::new(bytes);
+        let data = no_std_io::io::Cursor::new(bytes);
 
         let _ = WebPDecoder::new(data);
     }

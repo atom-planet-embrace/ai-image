@@ -16,7 +16,8 @@
 //! # Related Links
 //! * <https://tools.suckless.org/farbfeld/> - the farbfeld specification
 
-use std::io::{self, Read, Seek, SeekFrom, Write};
+use alloc::{borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
+use no_std_io::io::{self, Read, Seek, SeekFrom, Write};
 
 use crate::color::ExtendedColorType;
 use crate::error::{
@@ -316,7 +317,7 @@ mod tests {
     use crate::codecs::farbfeld::FarbfeldDecoder;
     use crate::ImageDecoderRect;
     use byteorder_lite::{ByteOrder, NativeEndian};
-    use std::io::{Cursor, Seek, SeekFrom};
+    use no_std_io::io::{Cursor, Seek, SeekFrom};
 
     static RECTANGLE_IN: &[u8] =     b"farbfeld\
                                        \x00\x00\x00\x02\x00\x00\x00\x03\

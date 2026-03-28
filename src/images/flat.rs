@@ -8,7 +8,7 @@
 //!
 //! ```no_run
 //! use std::ptr;
-//! use std::slice;
+//! use core::slice;
 //! use image::Rgb;
 //! use image::flat::{FlatSamples, SampleLayout};
 //! use image::imageops::thumbnail;
@@ -41,9 +41,10 @@
 //! }
 //! ```
 //!
-use std::marker::PhantomData;
-use std::ops::{Deref, Index, IndexMut};
-use std::{cmp, error, fmt};
+use alloc::{boxed::Box, string::String, vec, vec::Vec};
+use core::marker::PhantomData;
+use core::ops::{Deref, Index, IndexMut};
+use core::{cmp, error, fmt};
 
 use num_traits::Zero;
 

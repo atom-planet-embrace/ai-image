@@ -1,8 +1,9 @@
 //! Shared mathematical utility functions.
-use std::cmp::max;
-use std::ops::{Add, Mul};
+use core::cmp::max;
+use core::ops::{Add, Mul};
 
 use num_traits::MulAdd;
+use num_traits::Float;
 
 #[cfg(any(
     all(

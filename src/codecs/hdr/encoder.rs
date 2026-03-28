@@ -1,5 +1,6 @@
-use std::cmp::Ordering;
-use std::io::{Result, Write};
+use alloc::{borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
+use core::cmp::Ordering;
+use no_std_io::io::{Result, Write};
 
 use crate::codecs::hdr::{rgbe8, Rgbe8Pixel, SIGNATURE};
 use crate::color::Rgb;
@@ -468,7 +469,7 @@ fn noruncombine_test() {
     assert_eq!(rsi.next(), Some(Norun(129, 7)));
     assert_eq!(rsi.next(), None);
 
-    let v: Vec<_> = std::iter::repeat(())
+    let v: Vec<_> = core::iter::repeat(())
         .flat_map(|()| 0..2)
         .take(257)
         .collect();

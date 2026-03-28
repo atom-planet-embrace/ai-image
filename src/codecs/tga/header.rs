@@ -1,7 +1,8 @@
+use alloc::{borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
 use crate::error::{UnsupportedError, UnsupportedErrorKind};
 use crate::{ExtendedColorType, ImageError, ImageFormat, ImageResult};
 use byteorder_lite::{LittleEndian, ReadBytesExt, WriteBytesExt};
-use std::io::{Read, Write};
+use no_std_io::io::{Read, Write};
 
 pub(crate) const ALPHA_BIT_MASK: u8 = 0b1111;
 pub(crate) const SCREEN_ORIGIN_BIT_MASK: u8 = 0b10_0000;

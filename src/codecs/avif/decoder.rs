@@ -1,4 +1,5 @@
 //! Decoding of AVIF images.
+use alloc::{borrow::ToOwned, string::ToString, borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
 use crate::error::{
     DecodingError, ImageFormatHint, LimitError, LimitErrorKind, UnsupportedError,
     UnsupportedErrorKind,
@@ -8,10 +9,10 @@ use crate::{ColorType, ImageDecoder, ImageError, ImageFormat, ImageResult};
 /// The [AVIF] specification defines an image derivative of the AV1 bitstream, an open video codec.
 ///
 /// [AVIF]: https://aomediacodec.github.io/av1-avif/
-use std::error::Error;
-use std::fmt::{Display, Formatter};
-use std::io::Read;
-use std::marker::PhantomData;
+use core::error::Error;
+use core::fmt::{Display, Formatter};
+use no_std_io::io::Read;
+use core::marker::PhantomData;
 
 use crate::codecs::avif::ycgco::{
     ycgco420_to_rgba10, ycgco420_to_rgba12, ycgco420_to_rgba8, ycgco422_to_rgba10,
@@ -44,7 +45,7 @@ enum AvifDecoderError {
 }
 
 impl Display for AvifDecoderError {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
         match self {
             AvifDecoderError::AlphaPlaneFormat(pixel_layout) => match pixel_layout {
                 PixelLayout::I400 => unreachable!("This option must be handled correctly"),
@@ -136,14 +137,14 @@ fn reshape_plane(source: &[u8], stride: usize, width: usize, height: usize) -> V
 }
 
 struct Plane16View<'a> {
-    data: std::borrow::Cow<'a, [u16]>,
+    data: alloc::borrow::Cow<'a, [u16]>,
     stride: usize,
 }
 
 impl Default for Plane16View<'_> {
     fn default() -> Self {
         Plane16View {
-            data: std::borrow::Cow::Owned(vec![]),
+            data: alloc::borrow::Cow::Owned(vec![]),
             stride: 0,
         }
     }
@@ -169,13 +170,13 @@ fn transmute_y_plane16(
     if stride & 1 == 0 {
         match bytemuck::try_cast_slice(plane_ref) {
             Ok(slice) => Plane16View {
-                data: std::borrow::Cow::Borrowed(slice),
+                data: alloc::borrow::Cow::Borrowed(slice),
                 stride: y_plane_stride,
             },
             Err(_) => {
                 shape_y_plane();
                 Plane16View {
-                    data: std::borrow::Cow::Owned(bind_y),
+                    data: alloc::borrow::Cow::Owned(bind_y),
                     stride: y_plane_stride,
                 }
             }
@@ -183,7 +184,7 @@ fn transmute_y_plane16(
     } else {
         shape_y_plane();
         Plane16View {
-            data: std::borrow::Cow::Owned(bind_y),
+            data: alloc::borrow::Cow::Owned(bind_y),
             stride: y_plane_stride,
         }
     }
@@ -218,13 +219,13 @@ fn transmute_chroma_plane16(
     if stride & 1 == 0 {
         match bytemuck::try_cast_slice(plane_ref) {
             Ok(slice) => Plane16View {
-                data: std::borrow::Cow::Borrowed(slice),
+                data: alloc::borrow::Cow::Borrowed(slice),
                 stride: chroma_plane_stride,
             },
             Err(_) => {
                 shape_chroma_plane();
                 Plane16View {
-                    data: std::borrow::Cow::Owned(bind_chroma),
+                    data: alloc::borrow::Cow::Owned(bind_chroma),
                     stride: chroma_plane_stride,
                 }
             }
@@ -232,7 +233,7 @@ fn transmute_chroma_plane16(
     } else {
         shape_chroma_plane();
         Plane16View {
-            data: std::borrow::Cow::Owned(bind_chroma),
+            data: alloc::borrow::Cow::Owned(bind_chroma),
             stride: chroma_plane_stride,
         }
     }

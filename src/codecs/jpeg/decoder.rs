@@ -1,5 +1,6 @@
-use std::io::{BufRead, Seek};
-use std::marker::PhantomData;
+use alloc::{borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
+use no_std_io::io::{BufRead, Seek};
+use core::marker::PhantomData;
 
 use zune_core::bytestream::ZCursor;
 

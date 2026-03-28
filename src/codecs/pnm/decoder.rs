@@ -1,9 +1,10 @@
-use std::error;
-use std::fmt::{self, Display};
-use std::io::{self, Read};
-use std::mem::size_of;
-use std::num::ParseIntError;
-use std::str;
+use alloc::{borrow::ToOwned, string::ToString, borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
+use core::error;
+use core::fmt::{self, Display};
+use no_std_io::io::{self, Read};
+use core::mem::size_of;
+use core::num::ParseIntError;
+use core::str;
 
 use super::{ArbitraryHeader, ArbitraryTuplType, BitmapHeader, GraymapHeader, PixmapHeader};
 use super::{HeaderRecord, PnmHeader, PnmSubtype, SampleEncoding};
@@ -1284,7 +1285,7 @@ ENDHDR
     /// A previous infinite loop.
     #[test]
     fn pbm_binary_ascii_termination() {
-        use std::io::{BufReader, Cursor, Error, ErrorKind, Read, Result};
+        use no_std_io::io::{BufReader, Cursor, Error, ErrorKind, Read, Result};
         struct FailRead(Cursor<&'static [u8]>);
 
         impl Read for FailRead {

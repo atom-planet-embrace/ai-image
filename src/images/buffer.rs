@@ -1,10 +1,12 @@
 //! Contains the generic `ImageBuffer` struct.
+use alloc::{boxed::Box, vec, vec::Vec};
 use num_traits::Zero;
-use std::fmt;
-use std::marker::PhantomData;
-use std::ops::{Deref, DerefMut, Index, IndexMut, Range};
+use core::fmt;
+use core::marker::PhantomData;
+use core::ops::{Deref, DerefMut, Index, IndexMut, Range};
+#[cfg(feature = "std")]
 use std::path::Path;
-use std::slice::{ChunksExact, ChunksExactMut};
+use core::slice::{ChunksExact, ChunksExactMut};
 
 use crate::color::{FromColor, FromPrimitive, Luma, LumaA, Rgb, Rgba};
 use crate::error::{
@@ -17,8 +19,10 @@ use crate::traits::{EncodableLayout, Pixel, PixelWithColorType};
 use crate::utils::expand_packed;
 use crate::{
     metadata::{Cicp, CicpColorPrimaries, CicpTransferCharacteristics, CicpTransform},
-    save_buffer, save_buffer_with_format, write_buffer_with_format, ImageError,
+    write_buffer_with_format, ImageError,
 };
+#[cfg(feature = "std")]
+use crate::{save_buffer, save_buffer_with_format};
 use crate::{DynamicImage, GenericImage, GenericImageView, ImageEncoder, ImageFormat};
 
 /// Iterate over pixel refs.
@@ -1045,6 +1049,7 @@ where
     /// Saves the buffer to a file at the path specified.
     ///
     /// The image format is derived from the file extension.
+    #[cfg(feature = "std")]
     pub fn save<Q>(&self, path: Q) -> ImageResult<()>
     where
         Q: AsRef<Path>,
@@ -1071,6 +1076,7 @@ where
     ///
     /// See [`save_buffer_with_format`](fn.save_buffer_with_format.html) for
     /// supported types.
+    #[cfg(feature = "std")]
     pub fn save_with_format<Q>(&self, path: Q, format: ImageFormat) -> ImageResult<()>
     where
         Q: AsRef<Path>,
@@ -1100,7 +1106,7 @@ where
     /// for best performance.
     pub fn write_to<W>(&self, writer: &mut W, format: ImageFormat) -> ImageResult<()>
     where
-        W: std::io::Write + std::io::Seek,
+        W: no_std_io::io::Write + no_std_io::io::Seek,
         P: PixelWithColorType,
     {
         // This is valid as the subpixel is u8.
@@ -1610,7 +1616,7 @@ pub struct ConvertColorOptions {
     /// all attributes will be bound to the thread, only that we can add `!Sync` options later. You
     /// should be constructing the options at the call site with each attribute being cheap to move
     /// into here.
-    pub(crate) _auto_traits: PhantomData<std::rc::Rc<()>>,
+    pub(crate) _auto_traits: PhantomData<alloc::rc::Rc<()>>,
 }
 
 impl ConvertColorOptions {
@@ -2096,7 +2102,7 @@ mod test {
         // A buffer of 1 pixel, padded to 4 bytes as would be common in, e.g. BMP.
 
         let img: GrayImage = ImageBuffer::from_raw(1, 1, vec![0u8; 4]).unwrap();
-        let mut buffer = std::io::Cursor::new(vec![]);
+        let mut buffer = no_std_io::io::Cursor::new(vec![]);
         assert!(img.write_to(&mut buffer, ImageFormat::Png).is_ok());
     }
 

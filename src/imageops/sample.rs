@@ -3,9 +3,10 @@
 // See http://cs.brown.edu/courses/cs123/lectures/08_Image_Processing_IV.pdf
 // for some of the theory behind image scaling and convolution
 
-use num_traits::{NumCast, ToPrimitive, Zero};
-use std::f32;
-use std::ops::Mul;
+use alloc::{format, boxed::Box, string::String, vec, vec::Vec};
+use num_traits::{Float, NumCast, ToPrimitive, Zero};
+use core::f32;
+use core::ops::Mul;
 
 use crate::imageops::filter_1d::{
     filter_2d_sep_la, filter_2d_sep_la_f32, filter_2d_sep_la_u16, filter_2d_sep_plane,

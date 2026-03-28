@@ -1,12 +1,7 @@
 //! Types describing image metadata
 pub(crate) mod cicp;
 
-use std::{
-    io::{Cursor, Read},
-    num::NonZeroU32,
-};
-
-use byteorder_lite::{BigEndian, LittleEndian, ReadBytesExt, WriteBytesExt};
+use core::num::NonZeroU32;
 
 pub use self::cicp::{
     Cicp, CicpColorPrimaries, CicpMatrixCoefficients, CicpTransferCharacteristics, CicpTransform,
@@ -95,12 +90,17 @@ impl Orientation {
     #[must_use]
     pub fn remove_from_exif_chunk(chunk: &mut [u8]) -> Option<Self> {
         if let Some((orientation, offset, endian)) = Self::from_exif_chunk_inner(chunk) {
-            let mut writer = Cursor::new(chunk);
-            writer.set_position(offset);
+            let off = offset as usize;
             let no_orientation: u16 = Self::NoTransforms.to_exif().into();
             match endian {
-                ExifEndian::Big => writer.write_u16::<BigEndian>(no_orientation).unwrap(),
-                ExifEndian::Little => writer.write_u16::<LittleEndian>(no_orientation).unwrap(),
+                ExifEndian::Big => {
+                    let bytes = no_orientation.to_be_bytes();
+                    chunk[off..off + 2].copy_from_slice(&bytes);
+                }
+                ExifEndian::Little => {
+                    let bytes = no_orientation.to_le_bytes();
+                    chunk[off..off + 2].copy_from_slice(&bytes);
+                }
             }
             Some(orientation)
         } else {
@@ -111,18 +111,18 @@ impl Orientation {
     /// Returns the orientation, the offset in the Exif chunk where it was found, and Exif chunk endianness
     #[must_use]
     fn from_exif_chunk_inner(chunk: &[u8]) -> Option<(Self, u64, ExifEndian)> {
-        let mut reader = Cursor::new(chunk);
-
-        let mut magic = [0; 4];
-        reader.read_exact(&mut magic).ok()?;
+        if chunk.len() < 4 {
+            return None;
+        }
+        let magic = &chunk[..4];
 
         match magic {
             [0x49, 0x49, 42, 0] => {
-                return Self::locate_orientation_entry::<LittleEndian>(&mut reader)
+                return Self::locate_orientation_entry(chunk, ExifEndian::Little)
                     .map(|(orient, offset)| (orient, offset, ExifEndian::Little));
             }
             [0x4d, 0x4d, 0, 42] => {
-                return Self::locate_orientation_entry::<BigEndian>(&mut reader)
+                return Self::locate_orientation_entry(chunk, ExifEndian::Big)
                     .map(|(orient, offset)| (orient, offset, ExifEndian::Big));
             }
             _ => {}
@@ -130,22 +130,35 @@ impl Orientation {
         None
     }
 
-    /// Extracted into a helper function to be generic over endianness
-    fn locate_orientation_entry<B>(reader: &mut Cursor<&[u8]>) -> Option<(Self, u64)>
-    where
-        B: byteorder_lite::ByteOrder,
-    {
-        let ifd_offset = reader.read_u32::<B>().ok()?;
-        reader.set_position(u64::from(ifd_offset));
-        let entries = reader.read_u16::<B>().ok()?;
+    fn read_u16_at(chunk: &[u8], offset: usize, endian: ExifEndian) -> Option<u16> {
+        let bytes = chunk.get(offset..offset + 2)?;
+        Some(match endian {
+            ExifEndian::Big => u16::from_be_bytes([bytes[0], bytes[1]]),
+            ExifEndian::Little => u16::from_le_bytes([bytes[0], bytes[1]]),
+        })
+    }
+
+    fn read_u32_at(chunk: &[u8], offset: usize, endian: ExifEndian) -> Option<u32> {
+        let bytes = chunk.get(offset..offset + 4)?;
+        Some(match endian {
+            ExifEndian::Big => u32::from_be_bytes([bytes[0], bytes[1], bytes[2], bytes[3]]),
+            ExifEndian::Little => u32::from_le_bytes([bytes[0], bytes[1], bytes[2], bytes[3]]),
+        })
+    }
+
+    /// Locate the orientation entry in the Exif IFD
+    fn locate_orientation_entry(chunk: &[u8], endian: ExifEndian) -> Option<(Self, u64)> {
+        let ifd_offset = Self::read_u32_at(chunk, 4, endian)? as usize;
+        let entries = Self::read_u16_at(chunk, ifd_offset, endian)?;
+        let mut pos = ifd_offset + 2;
         for _ in 0..entries {
-            let tag = reader.read_u16::<B>().ok()?;
-            let format = reader.read_u16::<B>().ok()?;
-            let count = reader.read_u32::<B>().ok()?;
-            let value = reader.read_u16::<B>().ok()?;
-            let _padding = reader.read_u16::<B>().ok()?;
+            let tag = Self::read_u16_at(chunk, pos, endian)?;
+            let format = Self::read_u16_at(chunk, pos + 2, endian)?;
+            let count = Self::read_u32_at(chunk, pos + 4, endian)?;
+            let value = Self::read_u16_at(chunk, pos + 8, endian)?;
+            pos += 12; // Each IFD entry is 12 bytes
             if tag == 0x112 && format == 3 && count == 1 {
-                let offset = reader.position() - 4; // we've read 4 bytes (2 * u16) past the start of the value
+                let offset = (pos - 4) as u64; // points back to the value field
                 let orientation = Self::from_exif(value.min(255) as u8);
                 return orientation.map(|orient| (orient, offset));
             }
@@ -173,6 +186,7 @@ pub enum LoopCount {
 #[cfg(all(test, feature = "jpeg"))]
 mod tests {
     use crate::{codecs::jpeg::JpegDecoder, ImageDecoder as _};
+    use std::io::Cursor;
 
     // This brings all the items from the parent module into scope,
     // so you can directly use `add` instead of `super::add`.

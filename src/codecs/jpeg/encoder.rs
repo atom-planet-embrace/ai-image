@@ -1,7 +1,7 @@
 #![allow(clippy::too_many_arguments)]
-use std::borrow::Cow;
-use std::io::{self, Write};
-use std::{error, fmt};
+use alloc::{borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
+use no_std_io::io::{self, Write};
+use core::{error, fmt};
 
 use crate::error::{
     EncodingError, ImageError, ImageResult, UnsupportedError, UnsupportedErrorKind,
@@ -959,7 +959,7 @@ fn copy_blocks_gray<I: GenericImageView>(source: &I, x0: u32, y0: u32, gb: &mut 
 
 #[cfg(test)]
 mod tests {
-    use std::io::Cursor;
+    use no_std_io::io::Cursor;
 
     #[cfg(feature = "benchmarks")]
     extern crate test;

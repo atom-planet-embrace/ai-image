@@ -1,3 +1,4 @@
+use alloc::{boxed::Box, string::String, vec, vec::Vec};
 use crate::error::{ImageError, ImageResult};
 use crate::flat::ViewOfPixel;
 use crate::math::Rect;

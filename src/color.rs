@@ -1,6 +1,7 @@
-use std::ops::{Index, IndexMut};
+use core::ops::{Index, IndexMut};
 
 use num_traits::{NumCast, ToPrimitive, Zero};
+use num_traits::Float;
 
 use crate::{
     error::TryFromExtendedColorError,

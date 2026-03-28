@@ -5,9 +5,9 @@
 //! # Related Links
 //! * <http://www.w3.org/TR/PNG/> - The PNG Specification
 
-use std::borrow::Cow;
-use std::io::{BufRead, Seek, Write};
-use std::num::NonZeroU32;
+use alloc::{borrow::ToOwned, string::ToString, borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
+use no_std_io::io::{BufRead, Seek, Write};
+use core::num::NonZeroU32;
 
 use png::{BlendOp, DeflateCompression, DisposeOp};
 
@@ -815,7 +815,7 @@ impl ImageError {
 mod tests {
     use super::*;
     use crate::io::free_functions::decoder_to_vec;
-    use std::io::{BufReader, Cursor, Read};
+    use no_std_io::io::{BufReader, Cursor, Read};
 
     #[test]
     fn ensure_no_decoder_off_by_one() {
@@ -844,7 +844,7 @@ mod tests {
 
     #[test]
     fn underlying_error() {
-        use std::error::Error;
+        use core::error::Error;
 
         let mut not_png =
             std::fs::read("tests/images/png/bugfixes/debug_triangle_corners_widescreen.png")

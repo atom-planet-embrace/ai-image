@@ -1,7 +1,9 @@
+use alloc::{borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
 use super::header::Header;
 use crate::{codecs::tga::header::ImageType, error::EncodingError, utils::vec_try_with_capacity};
 use crate::{DynamicImage, ExtendedColorType, ImageEncoder, ImageError, ImageFormat, ImageResult};
-use std::{error, fmt, io::Write};
+use core::{error, fmt};
+use no_std_io::io::Write;
 
 /// Errors that can occur during encoding and saving of a TGA image.
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]

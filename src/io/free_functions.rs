@@ -1,10 +1,19 @@
+use alloc::{boxed::Box, string::String, vec, vec::Vec};
+#[cfg(feature = "std")]
 use std::fs::File;
-use std::io::{self, BufRead, BufWriter, Seek, Write};
+use no_std_io::io::{self, BufRead, Seek, Write};
+#[cfg(feature = "std")]
 use std::path::Path;
-use std::{iter, mem::size_of};
+use core::iter;
+use core::mem::size_of;
 
 use crate::io::encoder::ImageEncoderBoxed;
+#[cfg(feature = "std")]
 use crate::{codecs::*, ExtendedColorType, ImageReader};
+#[cfg(not(feature = "std"))]
+use crate::codecs::*;
+#[cfg(not(feature = "std"))]
+use crate::ExtendedColorType;
 
 use crate::error::{
     ImageError, ImageFormatHint, ImageResult, LimitError, LimitErrorKind, ParameterError,
@@ -18,6 +27,7 @@ use crate::{DynamicImage, ImageDecoder, ImageFormat};
 /// consider wrapping the reader with a `BufReader::new()`.
 ///
 /// Try [`ImageReader`] for more advanced uses.
+#[cfg(feature = "std")]
 pub fn load<R: BufRead + Seek>(r: R, format: ImageFormat) -> ImageResult<DynamicImage> {
     let mut reader = ImageReader::new(r);
     reader.set_format(format);
@@ -29,6 +39,7 @@ pub fn load<R: BufRead + Seek>(r: R, format: ImageFormat) -> ImageResult<Dynamic
 /// The image format is derived from the file extension. The buffer is assumed to have the correct
 /// format according to the specified color type. This will lead to corrupted files if the buffer
 /// contains malformed data.
+#[cfg(feature = "std")]
 pub fn save_buffer(
     path: impl AsRef<Path>,
     buf: &[u8],
@@ -44,6 +55,7 @@ pub fn save_buffer(
 ///
 /// The buffer is assumed to have the correct format according to the specified color type. This
 /// will lead to corrupted files if the buffer contains malformed data.
+#[cfg(feature = "std")]
 pub fn save_buffer_with_format(
     path: impl AsRef<Path>,
     buf: &[u8],
@@ -52,7 +64,7 @@ pub fn save_buffer_with_format(
     color: impl Into<ExtendedColorType>,
     format: ImageFormat,
 ) -> ImageResult<()> {
-    let buffered_file_write = &mut BufWriter::new(File::create(path)?); // always seekable
+    let buffered_file_write = &mut std::io::BufWriter::new(File::create(path)?); // always seekable
     let encoder = encoder_for_format(format, buffered_file_write)?;
     encoder.write_image(buf, width, height, color.into())
 }
@@ -94,7 +106,7 @@ pub(crate) fn encoder_for_format<'a, W: Write + Seek>(
             return Err(ImageError::Unsupported(
                 UnsupportedError::from_format_and_kind(
                     ImageFormatHint::Unknown,
-                    UnsupportedErrorKind::Format(ImageFormatHint::Name(format!("{format:?}"))),
+                    UnsupportedErrorKind::Format(ImageFormatHint::Name(alloc::format!("{format:?}"))),
                 ),
             ));
         }
@@ -206,7 +218,7 @@ where
     );
 
     let mut current_scanline = 0;
-    let mut tmp = Vec::new();
+    let mut tmp = alloc::vec::Vec::new();
     let mut tmp_scanline = None;
 
     {
@@ -302,7 +314,7 @@ where
 /// of the output buffer is guaranteed.
 ///
 /// Panics if there isn't enough memory to decode the image.
-pub(crate) fn decoder_to_vec<T>(decoder: impl ImageDecoder) -> ImageResult<Vec<T>>
+pub(crate) fn decoder_to_vec<T>(decoder: impl ImageDecoder) -> ImageResult<alloc::vec::Vec<T>>
 where
     T: crate::traits::Primitive + bytemuck::Pod,
 {
@@ -313,7 +325,7 @@ where
         )));
     }
 
-    let mut buf = vec![num_traits::Zero::zero(); total_bytes.unwrap() / size_of::<T>()];
+    let mut buf = alloc::vec![num_traits::Zero::zero(); total_bytes.unwrap() / size_of::<T>()];
     decoder.read_image(bytemuck::cast_slice_mut(buf.as_mut_slice()))?;
     Ok(buf)
 }

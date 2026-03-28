@@ -1,9 +1,10 @@
+use alloc::{borrow::ToOwned, string::ToString, borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
 use crate::utils::vec_try_with_capacity;
-use std::cmp::{self, Ordering};
-use std::io::{self, BufRead, Seek, SeekFrom};
-use std::iter::{repeat, Rev};
-use std::slice::ChunksExactMut;
-use std::{error, fmt};
+use core::cmp::{self, Ordering};
+use no_std_io::io::{self, BufRead, Seek, SeekFrom};
+use core::iter::{repeat, Rev};
+use core::slice::ChunksExactMut;
+use core::{error, fmt};
 
 use byteorder_lite::{LittleEndian, ReadBytesExt};
 
@@ -1399,7 +1400,7 @@ impl<R: BufRead + Seek> ImageDecoderRect for BmpDecoder<R> {
 
 #[cfg(test)]
 mod test {
-    use std::io::{BufReader, Cursor};
+    use no_std_io::io::{BufReader, Cursor};
 
     use super::*;
 

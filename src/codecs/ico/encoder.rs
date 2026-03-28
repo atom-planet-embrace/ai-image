@@ -1,6 +1,6 @@
 use byteorder_lite::{LittleEndian, WriteBytesExt};
-use std::borrow::Cow;
-use std::io::{self, Write};
+use alloc::{borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
+use no_std_io::io::{self, Write};
 
 use crate::codecs::png::PngEncoder;
 use crate::error::{ImageError, ImageResult, ParameterError, ParameterErrorKind};

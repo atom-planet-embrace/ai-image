@@ -1,11 +1,13 @@
 #![forbid(unsafe_code)]
+use alloc::{format, vec, vec::Vec};
 use crate::error::{LimitError, LimitErrorKind};
 use crate::math::multiply_accumulate;
 use crate::ImageError;
 
 use num_traits::{AsPrimitive, MulAdd};
-use std::mem::size_of;
-use std::ops::{Add, Mul};
+use num_traits::Float;
+use core::mem::size_of;
+use core::ops::{Add, Mul};
 
 pub(crate) trait SafeMul<S> {
     fn safe_mul(&self, rhs: S) -> Result<S, ImageError>;

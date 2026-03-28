@@ -1,3 +1,4 @@
+use alloc::{boxed::Box, string::String, vec, vec::Vec};
 use crate::animation::Frames;
 use crate::color::{ColorType, ExtendedColorType};
 use crate::error::ImageResult;

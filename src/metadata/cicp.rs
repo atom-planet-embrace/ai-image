@@ -1,4 +1,17 @@
-use std::sync::Arc;
+use num_traits::Float;
+use alloc::{boxed::Box, string::String, vec, vec::Vec};
+use alloc::sync::Arc;
+use core::time::Duration;
+
+/// A `Now` implementation that returns epoch (zero duration).
+/// Used for ICC profile creation timestamps where the exact time is not important.
+struct EpochNow;
+
+impl moxcms::Now for EpochNow {
+    fn now() -> Duration {
+        Duration::from_secs(0)
+    }
+}
 
 /// CICP (coding independent code points) defines the colorimetric interpretation of rgb-ish color
 /// components.
@@ -1469,7 +1482,7 @@ impl Cicp {
     /// linearly dependent on D50 instead, but it's brightness would be correctly presented. At
     /// least for perceptual intent this might be alright.
     fn to_moxcms_compute_profile(self) -> Option<ColorProfile> {
-        let mut rgb = moxcms::ColorProfile::new_srgb();
+        let mut rgb = moxcms::ColorProfile::new_srgb::<EpochNow>();
 
         rgb.update_rgb_colorimetry_from_cicp(moxcms::CicpProfile {
             color_primaries: self.primaries.to_moxcms(),

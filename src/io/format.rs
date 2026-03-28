@@ -1,4 +1,6 @@
+#[cfg(feature = "std")]
 use std::ffi::OsStr;
+#[cfg(feature = "std")]
 use std::path::Path;
 
 use crate::error::{ImageError, ImageFormatHint, ImageResult};
@@ -71,6 +73,7 @@ impl ImageFormat {
     /// let format = ImageFormat::from_extension("jpg");
     /// assert_eq!(format, Some(ImageFormat::Jpeg));
     /// ```
+    #[cfg(feature = "std")]
     #[inline]
     pub fn from_extension<S>(ext: S) -> Option<Self>
     where
@@ -79,28 +82,33 @@ impl ImageFormat {
         // thin wrapper function to strip generics
         fn inner(ext: &OsStr) -> Option<ImageFormat> {
             let ext = ext.to_str()?.to_ascii_lowercase();
-            // NOTE: when updating this, also update extensions_str()
-            Some(match ext.as_str() {
-                "avif" => ImageFormat::Avif,
-                "jpg" | "jpeg" | "jfif" => ImageFormat::Jpeg,
-                "png" | "apng" => ImageFormat::Png,
-                "gif" => ImageFormat::Gif,
-                "webp" => ImageFormat::WebP,
-                "tif" | "tiff" => ImageFormat::Tiff,
-                "tga" => ImageFormat::Tga,
-                "dds" => ImageFormat::Dds,
-                "bmp" => ImageFormat::Bmp,
-                "ico" => ImageFormat::Ico,
-                "hdr" => ImageFormat::Hdr,
-                "exr" => ImageFormat::OpenExr,
-                "pbm" | "pam" | "ppm" | "pgm" | "pnm" => ImageFormat::Pnm,
-                "ff" => ImageFormat::Farbfeld,
-                "qoi" => ImageFormat::Qoi,
-                _ => return None,
-            })
+            ImageFormat::from_extension_str(&ext)
         }
 
         inner(ext.as_ref())
+    }
+
+    /// Return the image format specified by a file extension string.
+    pub fn from_extension_str(ext: &str) -> Option<Self> {
+        // NOTE: when updating this, also update extensions_str()
+        Some(match ext {
+            "avif" => ImageFormat::Avif,
+            "jpg" | "jpeg" | "jfif" => ImageFormat::Jpeg,
+            "png" | "apng" => ImageFormat::Png,
+            "gif" => ImageFormat::Gif,
+            "webp" => ImageFormat::WebP,
+            "tif" | "tiff" => ImageFormat::Tiff,
+            "tga" => ImageFormat::Tga,
+            "dds" => ImageFormat::Dds,
+            "bmp" => ImageFormat::Bmp,
+            "ico" => ImageFormat::Ico,
+            "hdr" => ImageFormat::Hdr,
+            "exr" => ImageFormat::OpenExr,
+            "pbm" | "pam" | "ppm" | "pgm" | "pnm" => ImageFormat::Pnm,
+            "ff" => ImageFormat::Farbfeld,
+            "qoi" => ImageFormat::Qoi,
+            _ => return None,
+        })
     }
 
     /// Return the image format specified by the path's file extension.
@@ -115,6 +123,7 @@ impl ImageFormat {
     ///
     /// # Ok::<(), image::error::ImageError>(())
     /// ```
+    #[cfg(feature = "std")]
     #[inline]
     pub fn from_path<P>(path: P) -> ImageResult<Self>
     where

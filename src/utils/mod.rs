@@ -1,7 +1,8 @@
 //!  Utilities
 
-use std::collections::TryReserveError;
-use std::iter::repeat;
+use alloc::{borrow::ToOwned, boxed::Box, string::String, vec, vec::Vec};
+use alloc::collections::TryReserveError;
+use core::iter::repeat;
 
 #[inline(always)]
 pub(crate) fn expand_packed<F>(buf: &mut [u8], channels: usize, bit_depth: u8, mut func: F)

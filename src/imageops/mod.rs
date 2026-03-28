@@ -1,5 +1,5 @@
 //! Image Processing Functions
-use std::cmp;
+use core::cmp;
 
 use crate::traits::{Lerp, Pixel, Primitive};
 use crate::{GenericImage, GenericImageView, SubImage};

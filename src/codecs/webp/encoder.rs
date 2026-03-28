@@ -1,6 +1,7 @@
 //! Encoding of WebP images.
 
-use std::io::Write;
+use alloc::{borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
+use no_std_io::io::Write;
 
 use crate::error::{EncodingError, UnsupportedError, UnsupportedErrorKind};
 use crate::{DynamicImage, ExtendedColorType, ImageEncoder, ImageError, ImageFormat, ImageResult};

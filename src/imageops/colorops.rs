@@ -1,6 +1,7 @@
 //! Functions for altering and converting the color of pixelbufs
 
-use num_traits::NumCast;
+use alloc::{borrow::ToOwned, string::ToString, format, boxed::Box, string::String, vec, vec::Vec};
+use num_traits::{Float, NumCast};
 
 use crate::color::{FromColor, IntoColor, Luma, LumaA};
 use crate::metadata::{CicpColorPrimaries, CicpTransferCharacteristics};

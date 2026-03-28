@@ -1,7 +1,8 @@
-use std::io::{self, Read};
+use alloc::{borrow::ToOwned, string::ToString, borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
+use no_std_io::io::{self, Read};
 
-use std::num::{ParseFloatError, ParseIntError};
-use std::{error, fmt};
+use core::num::{ParseFloatError, ParseIntError};
+use core::{error, fmt};
 
 use crate::error::{
     DecodingError, ImageError, ImageFormatHint, ImageResult, UnsupportedError, UnsupportedErrorKind,

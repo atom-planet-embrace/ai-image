@@ -5,8 +5,9 @@
 //!  # Related Links
 //!  * <https://docs.microsoft.com/en-us/windows/win32/direct3ddds/dx-graphics-dds-pguide> - Description of the DDS format.
 
-use std::io::Read;
-use std::{error, fmt};
+use alloc::{borrow::ToOwned, string::ToString, borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
+use no_std_io::io::Read;
+use core::{error, fmt};
 
 use byteorder_lite::{LittleEndian, ReadBytesExt};
 

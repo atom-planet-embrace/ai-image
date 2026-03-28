@@ -2,7 +2,7 @@
 //!
 //! See the main [`ImageError`] which contains a variant for each specialized error type. The
 //! subtypes used in each variant are opaque by design. They can be roughly inspected through their
-//! respective `kind` methods which work similar to `std::io::Error::kind`.
+//! respective `kind` methods which work similar to `no_std_io::io::Error::kind`.
 //!
 //! The error interface makes it possible to inspect the error of an underlying decoder or encoder,
 //! through the `Error::source` method. Note that this is not part of the stable interface and you
@@ -13,9 +13,12 @@
 //!
 //! [`ImageError`]: enum.ImageError.html
 
-use std::collections::TryReserveError;
-use std::error::Error;
-use std::{fmt, io};
+use alloc::collections::TryReserveError;
+use alloc::boxed::Box;
+use alloc::string::String;
+use core::error::Error;
+use core::fmt;
+use no_std_io::io;
 
 use crate::color::ExtendedColorType;
 use crate::{metadata::Cicp, ImageFormat};
@@ -197,6 +200,7 @@ pub enum ImageFormatHint {
     Name(String),
 
     /// A common path extension for the format is known.
+    #[cfg(feature = "std")]
     PathExtension(std::path::PathBuf),
 
     /// The format is not known or could not be determined.
@@ -335,6 +339,7 @@ impl From<ImageFormat> for ImageFormatHint {
     }
 }
 
+#[cfg(feature = "std")]
 impl From<&'_ std::path::Path> for ImageFormatHint {
     fn from(path: &'_ std::path::Path) -> Self {
         match path.extension() {
@@ -372,7 +377,7 @@ impl fmt::Display for ImageError {
 impl Error for ImageError {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
         match self {
-            ImageError::IoError(err) => err.source(),
+            ImageError::IoError(_err) => None,
             ImageError::Decoding(err) => err.source(),
             ImageError::Encoding(err) => err.source(),
             ImageError::Parameter(err) => err.source(),
@@ -388,6 +393,7 @@ impl fmt::Display for UnsupportedError {
             UnsupportedErrorKind::Format(ImageFormatHint::Unknown) => {
                 write!(fmt, "The image format could not be determined",)
             }
+            #[cfg(feature = "std")]
             UnsupportedErrorKind::Format(format @ ImageFormatHint::PathExtension(_)) => write!(
                 fmt,
                 "The file extension {format} was not recognized as an image format",
@@ -534,6 +540,7 @@ impl fmt::Display for ImageFormatHint {
         match self {
             ImageFormatHint::Exact(format) => write!(fmt, "{format:?}"),
             ImageFormatHint::Name(name) => write!(fmt, "`{name}`"),
+            #[cfg(feature = "std")]
             ImageFormatHint::PathExtension(ext) => write!(fmt, "`.{ext:?}`"),
             ImageFormatHint::Unknown => write!(fmt, "`Unknown`"),
         }
@@ -579,7 +586,7 @@ impl From<TryFromExtendedColorError> for ImageError {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::mem::size_of;
+    use core::mem::size_of;
 
     #[allow(dead_code)]
     // This will fail to compile if the size of this type is large.

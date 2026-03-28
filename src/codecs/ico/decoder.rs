@@ -1,6 +1,7 @@
+use alloc::{borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
 use byteorder_lite::{LittleEndian, ReadBytesExt};
-use std::io::{BufRead, Read, Seek, SeekFrom};
-use std::{error, fmt};
+use no_std_io::io::{BufRead, Read, Seek, SeekFrom};
+use core::{error, fmt};
 
 use crate::color::ColorType;
 use crate::error::{
@@ -439,7 +440,7 @@ mod test {
             0x50, 0x37, 0x00, 0x00, 0x00, 0x00, 0x00, 0xc7, 0x37, 0x61,
         ];
 
-        let decoder = IcoDecoder::new(std::io::Cursor::new(&data)).unwrap();
+        let decoder = IcoDecoder::new(no_std_io::io::Cursor::new(&data)).unwrap();
         let mut buf = vec![0; usize::try_from(decoder.total_bytes()).unwrap()];
         assert!(decoder.read_image(&mut buf).is_err());
     }
