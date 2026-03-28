@@ -9,13 +9,25 @@ on:
     - cron: '5 16 * * 6'
 
 jobs:
+  test_no_std:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: dtolnay/rust-toolchain@stable
+      with:
+        targets: thumbv7m-none-eabi
+    - name: Check no_std (thumbv7m)
+      run: cargo check --target thumbv7m-none-eabi --no-default-features
+    - name: Check no_std default-formats (native)
+      run: cargo check --no-default-features --features default-formats
+
   test_features:
     runs-on: ubuntu-latest
-    needs: ["rustfmt"] # only to avoid running on broken builds
+    needs: ["rustfmt"]
     strategy:
       fail-fast: false
       matrix:
-        features: ['', default, rayon, avif, bmp, dds, exr, ff, gif, hdr, ico, jpeg, png, pnm, qoi, tga, tiff, webp]
+        features: ['std', 'std,default', 'std,rayon', 'std,avif', 'std,bmp', 'std,dds', 'std,exr', 'std,ff', 'std,gif', 'std,hdr', 'std,ico', 'std,jpeg', 'std,png', 'std,pnm', 'std,qoi', 'std,tga', 'std,tiff', 'std,webp']
     steps:
     - uses: actions/checkout@v4
     - uses: dtolnay/rust-toolchain@stable
@@ -59,18 +71,14 @@ jobs:
       with:
         cache-on-failure: true
     - name: build
-      run: cargo build -v
+      run: cargo build -v --features std
     - name: test
       if: ${{ matrix.rust != '1.88.0' }}
-      run: cargo test -v && cargo doc -v
+      run: cargo test -v --features std && cargo doc -v --features std
 
   test_other_archs:
-    # github actions does not support 32-bit or big endian systems directly, but
-    # it does support QEMU. so we install qemu, then build and run the tests in
-    # an emulated mips system. NOTE: you can also use this approach to test for
-    # big endian locally.
     runs-on: ubuntu-latest
-    needs: ["rustfmt", "cargo-deny"] # only to avoid running on broken builds
+    needs: ["rustfmt", "cargo-deny"]
     strategy:
       fail-fast: false
       matrix:
@@ -89,18 +97,18 @@ jobs:
       - name: Start Docker (required for cross-rs)
         run: sudo systemctl start docker
       - name: Cross-Run Tests using QEMU
-        run: cross test --target ${{ matrix.arch }}
+        run: cross test --target ${{ matrix.arch }} --features std
 
   test_avif_decoding:
     runs-on: ubuntu-latest
-    needs: ["rustfmt"] # only to avoid running on broken builds
+    needs: ["rustfmt"]
     steps:
     - name: install-dependencies
       run: sudo apt update && sudo apt install ninja-build meson nasm
     - uses: actions/checkout@v4
     - uses: dtolnay/rust-toolchain@stable
     - name: build
-      run: cargo build -v --no-default-features --features="avif,avif-native"
+      run: cargo build -v --no-default-features --features="std,avif,avif-native"
       env:
         SYSTEM_DEPS_DAV1D_BUILD_INTERNAL: always
 
@@ -121,12 +129,12 @@ jobs:
     - run: cargo clippy --all-features --all-targets -- -D warnings
       env:
         SYSTEM_DEPS_DAV1D_BUILD_INTERNAL: always
-        CLIPPY_CONF_DIR: ${{ github.workspace }} # clippy is not supposed to require this, but seems to (as of 1.89)
+        CLIPPY_CONF_DIR: ${{ github.workspace }}
 
   build_fuzz_afl:
     name: "Fuzz targets (afl)"
     runs-on: ubuntu-latest
-    needs: ["clippy"] # only to avoid running on broken builds
+    needs: ["clippy"]
     steps:
     - uses: actions/checkout@v4
     - uses: dtolnay/rust-toolchain@nightly
@@ -153,7 +161,7 @@ jobs:
   build_fuzz_cargo-fuzz:
     name: "Fuzz targets (cargo-fuzz)"
     runs-on: ubuntu-latest
-    needs: ["clippy"] # only to avoid running on broken builds
+    needs: ["clippy"]
     steps:
     - uses: actions/checkout@v4
     - uses: dtolnay/rust-toolchain@nightly
@@ -168,7 +176,7 @@ jobs:
 
   public_private_dependencies:
     runs-on: ubuntu-latest
-    needs: ["clippy"] # only to avoid running on broken builds
+    needs: ["clippy"]
     steps:
     - uses: actions/checkout@v4
     - uses: dtolnay/rust-toolchain@nightly
@@ -187,7 +195,7 @@ jobs:
 
   build_benchmarks:
     runs-on: ubuntu-latest
-    needs: ["clippy"] # only to avoid running on broken builds
+    needs: ["clippy"]
     steps:
     - uses: actions/checkout@v4
     - uses: dtolnay/rust-toolchain@nightly
