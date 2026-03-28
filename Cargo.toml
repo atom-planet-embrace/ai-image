@@ -1,5 +1,5 @@
 [package]
-name = "image"
+name = "ai-image"
 version = "0.25.10"
 edition = "2021"
 resolver = "2"
@@ -8,14 +8,14 @@ resolver = "2"
 rust-version = "1.88.0"
 
 license = "MIT OR Apache-2.0"
-description = "Imaging library. Provides basic image processing and encoders/decoders for common image formats."
+description = "no_std fork of image — imaging library with basic image processing and encoders/decoders for common image formats."
 authors = ["The image-rs Developers"]
 readme = "README.md"
 
 # crates.io metadata
-documentation = "https://docs.rs/image"
-repository = "https://github.com/image-rs/image"
-homepage = "https://github.com/image-rs/image"
+documentation = "https://docs.rs/ai-image"
+repository = "https://github.com/atom-planet-embrace/ai-image"
+homepage = "https://github.com/atom-planet-embrace/ai-image"
 categories = ["multimedia::images", "multimedia::encoding", "encoding"]
 
 # Crate build related

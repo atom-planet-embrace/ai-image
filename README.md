@@ -1,12 +1,10 @@
-# Image
-[![crates.io](https://img.shields.io/crates/v/image.svg)](https://crates.io/crates/image)
-[![Documentation](https://docs.rs/image/badge.svg)](https://docs.rs/image)
-[![Build Status](https://github.com/image-rs/image/workflows/Rust%20CI/badge.svg)](https://github.com/image-rs/image/actions)
-[![Gitter](https://badges.gitter.im/image-rs/image.svg)](https://gitter.im/image-rs/image?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+# ai-image
 
-Maintainers: [@197g](https://github.com/197g), [@fintelia](https://github.com/fintelia)
-
-[How to contribute](https://github.com/image-rs/organization/blob/master/CONTRIBUTING.md)
+> **Fork notice** — `ai-image` is a `no_std`-compatible fork of
+> [`image`](https://crates.io/crates/image) v0.25.10 (commit `76e57184`).
+> It replaces `std::io` with `no_std_io`, gates filesystem helpers behind
+> `feature = "std"`, and uses `ai-moxcms` in place of `moxcms`.
+> Upstream repo: <https://github.com/image-rs/image>
 
 ## An Image Processing Library
 
