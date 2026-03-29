@@ -4,6 +4,8 @@
 // for some of the theory behind image scaling and convolution
 
 use alloc::{boxed::Box, vec, vec::Vec};
+#[cfg(not(feature = "std"))]
+use num_traits::Float as _;
 use num_traits::{NumCast, ToPrimitive, Zero};
 use core::f32;
 use core::ops::Mul;

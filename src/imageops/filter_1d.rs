@@ -4,6 +4,8 @@ use crate::error::{LimitError, LimitErrorKind};
 use crate::math::multiply_accumulate;
 use crate::ImageError;
 
+#[cfg(not(feature = "std"))]
+use num_traits::Float as _;
 use num_traits::{AsPrimitive, MulAdd};
 use core::mem::size_of;
 use core::ops::{Add, Mul};

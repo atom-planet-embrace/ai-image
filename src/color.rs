@@ -1,5 +1,7 @@
 use core::ops::{Index, IndexMut};
 
+#[cfg(not(feature = "std"))]
+use num_traits::float::FloatCore as _;
 use num_traits::{NumCast, ToPrimitive, Zero};
 
 use crate::{

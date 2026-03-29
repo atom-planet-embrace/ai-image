@@ -2,6 +2,8 @@
 use core::cmp::max;
 use core::ops::{Add, Mul};
 
+#[cfg(not(feature = "std"))]
+use num_traits::float::FloatCore as _;
 use num_traits::MulAdd;
 
 #[cfg(any(

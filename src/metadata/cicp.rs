@@ -1,5 +1,7 @@
 use alloc::vec::Vec;
 use alloc::sync::Arc;
+#[cfg(not(feature = "std"))]
+use num_traits::float::FloatCore as _;
 use core::time::Duration;
 
 /// A `Now` implementation that returns epoch (zero duration).

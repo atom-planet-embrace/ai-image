@@ -1706,7 +1706,7 @@ pub fn load_from_memory_with_format(buf: &[u8], format: ImageFormat) -> ImageRes
     //
     // However the type inference break of this is apparently quite large in the ecosystem so for
     // now they are unfortunately not. See https://github.com/image-rs/image/issues/2585.
-    let b = io::Cursor::new(buf);
+    let b = no_std_io::io::Cursor::new(buf);
     free_functions::load(b, format)
 }
 

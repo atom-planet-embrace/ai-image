@@ -1,5 +1,7 @@
 use alloc::{vec, vec::Vec};
 use num_traits::Bounded;
+#[cfg(not(feature = "std"))]
+use num_traits::Float as _;
 
 use crate::imageops::filter_1d::{SafeAdd, SafeMul};
 use crate::{ImageBuffer, Pixel, Primitive};

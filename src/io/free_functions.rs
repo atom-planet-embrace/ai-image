@@ -66,7 +66,7 @@ pub fn save_buffer_with_format(
     color: impl Into<ExtendedColorType>,
     format: ImageFormat,
 ) -> ImageResult<()> {
-    let buffered_file_write = &mut std::io::BufWriter::new(File::create(path)?); // always seekable
+    let buffered_file_write = &mut io::BufWriter::new(File::create(path)?); // always seekable
     let encoder = encoder_for_format(format, buffered_file_write)?;
     encoder.write_image(buf, width, height, color.into())
 }

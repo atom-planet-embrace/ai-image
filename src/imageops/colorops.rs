@@ -1,6 +1,8 @@
 //! Functions for altering and converting the color of pixelbufs
 
 use alloc::vec::Vec;
+#[cfg(not(feature = "std"))]
+use num_traits::Float as _;
 use num_traits::NumCast;
 
 use crate::color::{FromColor, IntoColor, Luma, LumaA};

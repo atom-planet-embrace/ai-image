@@ -42,20 +42,20 @@ no_std_io = { version = "0.6", default-features = false }
 num-traits = { version = "0.2.0", default-features = false, features = ["libm"] }
 
 # Optional dependencies
-color_quant = { version = "1.1", optional = true }
+color_quant = { package = "ai_color_quant", version = "1.1", optional = true }
 dav1d = { version = "0.11.0", optional = true }
-exr = { version = "1.74.0", default-features = false, optional = true }
+exr = { package = "ai-exr", version = "1.74.0", default-features = false, optional = true }
 gif = { version = "0.14.0", optional = true }
 image-webp = { version = "0.2.0", optional = true }
 mp4parse = { version = "0.17.0", optional = true }
-png = { version = "0.18.0", optional = true }
+png = { package = "ai-png", version = "0.18.1", optional = true }
 qoi = { version = "0.4", optional = true }
 ravif = { version = "0.13", default-features = false, optional = true }
 rayon = { version = "1.7.0", optional = true }
 rgb = { version = "0.8.48", default-features = false, optional = true }
 tiff = { version = "0.11.2", optional = true }
 zune-core = { version = "0.5.0", default-features = false, optional = true }
-zune-jpeg = { version = "0.5.5", optional = true }
+zune-jpeg = { version = "0.5.5", default-features = false, optional = true }
 serde = { version = "1.0.214", optional = true, features = ["derive"] }
 
 [dev-dependencies]
@@ -67,7 +67,7 @@ criterion = "0.5.0"
 
 [features]
 default = ["rayon", "default-formats"]
-std = ["no_std_io/std", "num-traits/std", "byteorder-lite/std"]
+std = ["no_std_io/std", "num-traits/std", "byteorder-lite/std", "color_quant?/std", "exr?/std", "png?/std", "zune-core?/std", "zune-jpeg?/std"]
 
 # Format features
 default-formats = ["avif", "bmp", "dds", "exr", "ff", "gif", "hdr", "ico", "jpeg", "png", "pnm", "qoi", "tga", "tiff", "webp"]
@@ -88,7 +88,7 @@ tiff = ["dep:tiff"]
 webp = ["dep:image-webp"]
 
 # Other features
-rayon = ["dep:rayon", "ravif?/threading", "exr?/rayon"] # Enables multi-threading
+rayon = ["dep:rayon", "ravif?/threading", "exr?/rayon", "std"] # Enables multi-threading
 nasm = ["ravif?/asm"] # Enables use of nasm by rav1e (requires nasm to be installed)
 color_quant = ["dep:color_quant"] # Enables color quantization
 avif-native = ["dep:mp4parse", "dep:dav1d"] # Enable native dependency libdav1d
