@@ -1,6 +1,5 @@
-use alloc::{format, vec, vec::Vec};
+use alloc::{vec, vec::Vec};
 use num_traits::Bounded;
-use num_traits::Float;
 
 use crate::imageops::filter_1d::{SafeAdd, SafeMul};
 use crate::{ImageBuffer, Pixel, Primitive};

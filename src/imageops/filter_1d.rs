@@ -1,11 +1,10 @@
 #![forbid(unsafe_code)]
-use alloc::{format, vec, vec::Vec};
+use alloc::{vec, vec::Vec};
 use crate::error::{LimitError, LimitErrorKind};
 use crate::math::multiply_accumulate;
 use crate::ImageError;
 
 use num_traits::{AsPrimitive, MulAdd};
-use num_traits::Float;
 use core::mem::size_of;
 use core::ops::{Add, Mul};
 

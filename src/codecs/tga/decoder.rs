@@ -1,4 +1,4 @@
-use alloc::{borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
+use alloc::{boxed::Box, vec::Vec};
 use super::header::{Header, ImageType, ALPHA_BIT_MASK};
 use crate::error::DecodingError;
 use crate::io::ReadExt;

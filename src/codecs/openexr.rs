@@ -20,7 +20,7 @@
 //!     - meta data is lost
 //!     - dwaa/dwab compressed images not supported yet by the exr library
 //!     - (chroma) subsampling not supported yet by the exr library
-use alloc::{borrow::ToOwned, string::ToString, borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
+use alloc::{string::ToString, boxed::Box, vec};
 use exr::prelude::*;
 
 use crate::error::{DecodingError, ImageFormatHint, UnsupportedError, UnsupportedErrorKind};

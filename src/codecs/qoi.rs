@@ -1,6 +1,6 @@
 //! Decoding and encoding of QOI images
 
-use alloc::{borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
+use alloc::boxed::Box;
 use crate::error::{DecodingError, EncodingError, UnsupportedError, UnsupportedErrorKind};
 use crate::{
     ColorType, ExtendedColorType, ImageDecoder, ImageEncoder, ImageError, ImageFormat, ImageResult,

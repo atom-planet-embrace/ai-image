@@ -1,4 +1,4 @@
-use alloc::{borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
+use alloc::{boxed::Box, vec::Vec};
 use no_std_io::io::{BufRead, Read, Seek};
 
 use image_webp::LoopCount;

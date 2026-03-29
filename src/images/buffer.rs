@@ -1,5 +1,5 @@
 //! Contains the generic `ImageBuffer` struct.
-use alloc::{boxed::Box, vec, vec::Vec};
+use alloc::{vec, vec::Vec};
 use num_traits::Zero;
 use core::fmt;
 use core::marker::PhantomData;

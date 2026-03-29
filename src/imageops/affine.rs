@@ -1,6 +1,6 @@
 //! Functions for performing affine transformations.
 
-use alloc::{borrow::ToOwned, string::ToString, boxed::Box, string::String, vec, vec::Vec};
+use alloc::vec::Vec;
 use crate::error::{ImageError, ParameterError, ParameterErrorKind};
 use crate::traits::Pixel;
 use crate::{GenericImage, GenericImageView, ImageBuffer};

@@ -1,5 +1,5 @@
 //! Encoding of PNM Images
-use alloc::{borrow::ToOwned, string::ToString, borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
+use alloc::{borrow::ToOwned, format, vec::Vec};
 use crate::utils::vec_try_with_capacity;
 use core::fmt;
 use no_std_io::io;

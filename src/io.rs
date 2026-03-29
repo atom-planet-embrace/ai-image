@@ -1,7 +1,7 @@
 //! Input and output of images.
 
+#[cfg(any(feature = "tga", feature = "dds", feature = "bmp"))]
 use no_std_io::io;
-use no_std_io::io::Read as _;
 
 /// The decoder traits.
 pub(crate) mod decoder;
@@ -29,10 +29,12 @@ pub type LimitSupport = limits::LimitSupport;
 pub(crate) use self::image_reader_type::ImageReader;
 
 /// Adds `read_exact_vec`
+#[cfg(any(feature = "tga", feature = "dds", feature = "bmp"))]
 pub(crate) trait ReadExt {
     fn read_exact_vec(&mut self, vec: &mut alloc::vec::Vec<u8>, len: usize) -> io::Result<()>;
 }
 
+#[cfg(any(feature = "tga", feature = "dds", feature = "bmp"))]
 impl<R: io::Read> ReadExt for R {
     fn read_exact_vec(&mut self, vec: &mut alloc::vec::Vec<u8>, len: usize) -> io::Result<()> {
         let initial_len = vec.len();

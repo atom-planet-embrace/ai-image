@@ -1,5 +1,5 @@
 #![allow(clippy::too_many_arguments)]
-use alloc::{borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
+use alloc::{borrow::Cow, vec, vec::Vec};
 use no_std_io::io::{self, Write};
 use core::{error, fmt};
 

@@ -1,6 +1,6 @@
 //! Encoding of WebP images.
 
-use alloc::{borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
+use alloc::vec::Vec;
 use no_std_io::io::Write;
 
 use crate::error::{EncodingError, UnsupportedError, UnsupportedErrorKind};

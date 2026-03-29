@@ -1,7 +1,7 @@
-use alloc::{borrow::ToOwned, boxed::Box, string::String, vec, vec::Vec};
+use alloc::{borrow::ToOwned, boxed::Box, vec::Vec};
 #[cfg(feature = "std")]
 use std::fs::File;
-use no_std_io::io::{self, Seek, Write};
+use no_std_io::io::{Seek, Write};
 #[cfg(feature = "std")]
 use std::path::Path;
 

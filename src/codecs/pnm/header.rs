@@ -1,4 +1,4 @@
-use alloc::{format, string::String, vec, vec::Vec};
+use alloc::{string::String, vec::Vec};
 use core::fmt;
 use no_std_io::io;
 

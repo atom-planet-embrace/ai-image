@@ -3,7 +3,7 @@
 /// The [AVIF] specification defines an image derivative of the AV1 bitstream, an open video codec.
 ///
 /// [AVIF]: https://aomediacodec.github.io/av1-avif/
-use alloc::{borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
+use alloc::{borrow::Cow, format, vec, vec::Vec};
 use core::cmp::min;
 use no_std_io::io::Write;
 use core::mem::size_of;

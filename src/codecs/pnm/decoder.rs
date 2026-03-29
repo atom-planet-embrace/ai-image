@@ -1,4 +1,4 @@
-use alloc::{borrow::ToOwned, string::ToString, borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
+use alloc::{borrow::ToOwned, string::ToString, boxed::Box, format, string::String, vec::Vec};
 use core::error;
 use core::fmt::{self, Display};
 use no_std_io::io::{self, Read};

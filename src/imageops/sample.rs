@@ -3,8 +3,8 @@
 // See http://cs.brown.edu/courses/cs123/lectures/08_Image_Processing_IV.pdf
 // for some of the theory behind image scaling and convolution
 
-use alloc::{format, boxed::Box, string::String, vec, vec::Vec};
-use num_traits::{Float, NumCast, ToPrimitive, Zero};
+use alloc::{boxed::Box, vec, vec::Vec};
+use num_traits::{NumCast, ToPrimitive, Zero};
 use core::f32;
 use core::ops::Mul;
 

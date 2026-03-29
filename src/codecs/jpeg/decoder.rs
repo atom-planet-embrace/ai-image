@@ -1,6 +1,7 @@
-use alloc::{borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
+use alloc::{boxed::Box, format, string::String, vec::Vec};
 use no_std_io::io::{BufRead, Seek};
 use core::marker::PhantomData;
+use core::fmt;
 
 use zune_core::bytestream::ZCursor;
 
@@ -225,6 +226,23 @@ fn new_zune_decoder(
     zune_jpeg::JpegDecoder::new_with_options(ZCursor::new(input), options)
 }
 
+/// Wrapper to provide `core::error::Error` for zune-jpeg's `DecodeErrors` in no_std.
+struct JpegDecodeError(String);
+
+impl fmt::Display for JpegDecodeError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.write_str(&self.0)
+    }
+}
+
+impl fmt::Debug for JpegDecodeError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.write_str(&self.0)
+    }
+}
+
+impl core::error::Error for JpegDecodeError {}
+
 impl ImageError {
     fn from_jpeg(err: zune_jpeg::errors::DecodeErrors) -> ImageError {
         use zune_jpeg::errors::DecodeErrors::*;
@@ -236,7 +254,10 @@ impl ImageError {
             LargeDimensions(_) => ImageError::Limits(LimitError::from_kind(
                 crate::error::LimitErrorKind::DimensionError,
             )),
-            err => ImageError::Decoding(DecodingError::new(ImageFormat::Jpeg.into(), err)),
+            err => ImageError::Decoding(DecodingError::new(
+                ImageFormat::Jpeg.into(),
+                JpegDecodeError(format!("{err:?}")),
+            )),
         }
     }
 }

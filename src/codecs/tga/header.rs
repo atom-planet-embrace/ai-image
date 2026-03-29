@@ -1,4 +1,3 @@
-use alloc::{borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
 use crate::error::{UnsupportedError, UnsupportedErrorKind};
 use crate::{ExtendedColorType, ImageError, ImageFormat, ImageResult};
 use byteorder_lite::{LittleEndian, ReadBytesExt, WriteBytesExt};

@@ -5,7 +5,7 @@
 //!
 //! # Related Links
 //! * <http://partners.adobe.com/public/developer/tiff/index.html> - The TIFF specification
-use alloc::{borrow::ToOwned, string::ToString, borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
+use alloc::{string::ToString, boxed::Box, format, vec, vec::Vec};
 use no_std_io::io::{self, BufRead, Cursor, Read, Seek, Write};
 use core::marker::PhantomData;
 use core::mem;

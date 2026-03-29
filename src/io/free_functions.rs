@@ -1,7 +1,9 @@
-use alloc::{boxed::Box, string::String, vec, vec::Vec};
+use alloc::boxed::Box;
 #[cfg(feature = "std")]
 use std::fs::File;
-use no_std_io::io::{self, BufRead, Seek, Write};
+use no_std_io::io::{self, Seek, Write};
+#[cfg(feature = "std")]
+use no_std_io::io::BufRead;
 #[cfg(feature = "std")]
 use std::path::Path;
 use core::iter;
@@ -10,16 +12,16 @@ use core::mem::size_of;
 use crate::io::encoder::ImageEncoderBoxed;
 #[cfg(feature = "std")]
 use crate::{codecs::*, ExtendedColorType, ImageReader};
-#[cfg(not(feature = "std"))]
+#[cfg(all(not(feature = "std"), any(feature = "png", feature = "jpeg", feature = "gif", feature = "bmp", feature = "ico", feature = "pnm", feature = "tga", feature = "tiff", feature = "exr", feature = "avif", feature = "qoi", feature = "webp", feature = "hdr", feature = "ff")))]
 use crate::codecs::*;
-#[cfg(not(feature = "std"))]
-use crate::ExtendedColorType;
 
 use crate::error::{
     ImageError, ImageFormatHint, ImageResult, LimitError, LimitErrorKind, ParameterError,
     ParameterErrorKind, UnsupportedError, UnsupportedErrorKind,
 };
-use crate::{DynamicImage, ImageDecoder, ImageFormat};
+#[cfg(feature = "std")]
+use crate::DynamicImage;
+use crate::{ImageDecoder, ImageFormat};
 
 /// Create a new image from a Reader.
 ///
@@ -73,44 +75,43 @@ pub(crate) fn encoder_for_format<'a, W: Write + Seek>(
     format: ImageFormat,
     buffered_write: &'a mut W,
 ) -> ImageResult<Box<dyn ImageEncoderBoxed + 'a>> {
-    Ok(match format {
+    let _ = &buffered_write;
+    match format {
         #[cfg(feature = "png")]
-        ImageFormat::Png => Box::new(png::PngEncoder::new(buffered_write)),
+        ImageFormat::Png => Ok(Box::new(png::PngEncoder::new(buffered_write))),
         #[cfg(feature = "jpeg")]
-        ImageFormat::Jpeg => Box::new(jpeg::JpegEncoder::new(buffered_write)),
+        ImageFormat::Jpeg => Ok(Box::new(jpeg::JpegEncoder::new(buffered_write))),
         #[cfg(feature = "pnm")]
-        ImageFormat::Pnm => Box::new(pnm::PnmEncoder::new(buffered_write)),
+        ImageFormat::Pnm => Ok(Box::new(pnm::PnmEncoder::new(buffered_write))),
         #[cfg(feature = "gif")]
-        ImageFormat::Gif => Box::new(gif::GifEncoder::new(buffered_write)),
+        ImageFormat::Gif => Ok(Box::new(gif::GifEncoder::new(buffered_write))),
         #[cfg(feature = "ico")]
-        ImageFormat::Ico => Box::new(ico::IcoEncoder::new(buffered_write)),
+        ImageFormat::Ico => Ok(Box::new(ico::IcoEncoder::new(buffered_write))),
         #[cfg(feature = "bmp")]
-        ImageFormat::Bmp => Box::new(bmp::BmpEncoder::new(buffered_write)),
+        ImageFormat::Bmp => Ok(Box::new(bmp::BmpEncoder::new(buffered_write))),
         #[cfg(feature = "ff")]
-        ImageFormat::Farbfeld => Box::new(farbfeld::FarbfeldEncoder::new(buffered_write)),
+        ImageFormat::Farbfeld => Ok(Box::new(farbfeld::FarbfeldEncoder::new(buffered_write))),
         #[cfg(feature = "tga")]
-        ImageFormat::Tga => Box::new(tga::TgaEncoder::new(buffered_write)),
+        ImageFormat::Tga => Ok(Box::new(tga::TgaEncoder::new(buffered_write))),
         #[cfg(feature = "exr")]
-        ImageFormat::OpenExr => Box::new(openexr::OpenExrEncoder::new(buffered_write)),
+        ImageFormat::OpenExr => Ok(Box::new(openexr::OpenExrEncoder::new(buffered_write))),
         #[cfg(feature = "tiff")]
-        ImageFormat::Tiff => Box::new(tiff::TiffEncoder::new(buffered_write)),
+        ImageFormat::Tiff => Ok(Box::new(tiff::TiffEncoder::new(buffered_write))),
         #[cfg(feature = "avif")]
-        ImageFormat::Avif => Box::new(avif::AvifEncoder::new(buffered_write)),
+        ImageFormat::Avif => Ok(Box::new(avif::AvifEncoder::new(buffered_write))),
         #[cfg(feature = "qoi")]
-        ImageFormat::Qoi => Box::new(qoi::QoiEncoder::new(buffered_write)),
+        ImageFormat::Qoi => Ok(Box::new(qoi::QoiEncoder::new(buffered_write))),
         #[cfg(feature = "webp")]
-        ImageFormat::WebP => Box::new(webp::WebPEncoder::new_lossless(buffered_write)),
+        ImageFormat::WebP => Ok(Box::new(webp::WebPEncoder::new_lossless(buffered_write))),
         #[cfg(feature = "hdr")]
-        ImageFormat::Hdr => Box::new(hdr::HdrEncoder::new(buffered_write)),
-        _ => {
-            return Err(ImageError::Unsupported(
-                UnsupportedError::from_format_and_kind(
-                    ImageFormatHint::Unknown,
-                    UnsupportedErrorKind::Format(ImageFormatHint::Name(alloc::format!("{format:?}"))),
-                ),
-            ));
-        }
-    })
+        ImageFormat::Hdr => Ok(Box::new(hdr::HdrEncoder::new(buffered_write))),
+        _ => Err(ImageError::Unsupported(
+            UnsupportedError::from_format_and_kind(
+                ImageFormatHint::Unknown,
+                UnsupportedErrorKind::Format(ImageFormatHint::Name(alloc::format!("{format:?}"))),
+            ),
+        )),
+    }
 }
 
 static MAGIC_BYTES: [(&[u8], &[u8], ImageFormat); 22] = [

@@ -1,4 +1,4 @@
-use alloc::{boxed::Box, string::String, vec, vec::Vec};
+use alloc::vec::Vec;
 use crate::{flat::ViewOfPixel, math::Rect, GenericImage, GenericImageView, ImageBuffer, Pixel};
 use core::ops::{Deref, DerefMut};
 

@@ -5,7 +5,7 @@
 //!  # Related Links
 //!  * <https://docs.microsoft.com/en-us/windows/win32/direct3ddds/dx-graphics-dds-pguide> - Description of the DDS format.
 
-use alloc::{borrow::ToOwned, string::ToString, borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
+use alloc::{string::ToString, boxed::Box, format};
 use no_std_io::io::Read;
 use core::{error, fmt};
 

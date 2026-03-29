@@ -1,6 +1,6 @@
 //!  Utilities
 
-use alloc::{borrow::ToOwned, boxed::Box, string::String, vec, vec::Vec};
+use alloc::{borrow::ToOwned, vec::Vec};
 use alloc::collections::TryReserveError;
 use core::iter::repeat;
 
@@ -64,6 +64,7 @@ pub(crate) fn expand_bits(bit_depth: u8, row_size: u32, buf: &[u8]) -> Vec<u8> {
     p
 }
 
+#[cfg(feature = "tiff")]
 #[inline(always)]
 pub(crate) fn interleave_planes(out: &mut [u8], color: crate::ColorType, planes: &[&[u8]]) {
     #[track_caller]
@@ -95,6 +96,7 @@ pub(crate) fn interleave_planes(out: &mut [u8], color: crate::ColorType, planes:
     }
 }
 
+#[cfg(feature = "tiff")]
 #[inline(always)]
 fn interleave_planes_inner<const PLANES: usize, const N: usize>(
     out: &mut [[u8; N]],

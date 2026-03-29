@@ -1,5 +1,5 @@
 //! Insert line breaks between written buffers when they would overflow the line length.
-use alloc::{borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
+use alloc::vec::Vec;
 use no_std_io::io;
 
 // The pnm standard says to insert line breaks after 70 characters. Assumes that no line breaks

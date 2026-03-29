@@ -3,7 +3,6 @@ use core::cmp::max;
 use core::ops::{Add, Mul};
 
 use num_traits::MulAdd;
-use num_traits::Float;
 
 #[cfg(any(
     all(

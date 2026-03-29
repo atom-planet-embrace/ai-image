@@ -3,6 +3,7 @@ use std::ffi::OsStr;
 #[cfg(feature = "std")]
 use std::path::Path;
 
+#[cfg(feature = "std")]
 use crate::error::{ImageError, ImageFormatHint, ImageResult};
 
 /// An enumeration of supported image formats.

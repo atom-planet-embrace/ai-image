@@ -16,7 +16,7 @@
 //! # Related Links
 //! * <https://tools.suckless.org/farbfeld/> - the farbfeld specification
 
-use alloc::{borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
+use alloc::{boxed::Box, format};
 use no_std_io::io::{self, Read, Seek, SeekFrom, Write};
 
 use crate::color::ExtendedColorType;

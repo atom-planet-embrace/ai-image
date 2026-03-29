@@ -5,7 +5,7 @@
 //! # Related Links
 //! * <http://www.w3.org/TR/PNG/> - The PNG Specification
 
-use alloc::{borrow::ToOwned, string::ToString, borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
+use alloc::{string::ToString, borrow::Cow, boxed::Box, vec, vec::Vec};
 use no_std_io::io::{BufRead, Seek, Write};
 use core::num::NonZeroU32;
 

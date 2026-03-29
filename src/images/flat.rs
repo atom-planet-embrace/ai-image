@@ -41,7 +41,7 @@
 //! }
 //! ```
 //!
-use alloc::{boxed::Box, string::String, vec, vec::Vec};
+use alloc::vec::Vec;
 use core::marker::PhantomData;
 use core::ops::{Deref, Index, IndexMut};
 use core::{cmp, error, fmt};
