@@ -1,5 +1,5 @@
 //! An example of opening an image.
-extern crate image;
+extern crate ai_image as image;
 
 use std::env;
 use std::path::Path;

@@ -1,7 +1,7 @@
 use std::{fs, iter, path};
 
 use criterion::{criterion_group, criterion_main, Criterion};
-use image::ImageFormat;
+use ai_image::ImageFormat;
 
 #[derive(Clone, Copy)]
 struct BenchDef {
@@ -97,7 +97,7 @@ fn bench_load(c: &mut Criterion, def: &BenchDef) {
         let buf = fs::read(path).unwrap();
         group.bench_function(file_name.to_owned(), |b| {
             b.iter(|| {
-                image::load_from_memory_with_format(&buf, def.format).unwrap();
+                ai_image::load_from_memory_with_format(&buf, def.format).unwrap();
             });
         });
     }

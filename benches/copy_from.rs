@@ -1,5 +1,5 @@
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
-use image::{GenericImage, ImageBuffer, Rgba};
+use ai_image::{GenericImage, ImageBuffer, Rgba};
 
 pub fn bench_copy_from(c: &mut Criterion) {
     let at = rect_from_xy_ranges(256..1280, 256..1280);
@@ -8,10 +8,10 @@ pub fn bench_copy_from(c: &mut Criterion) {
     let src = ImageBuffer::from_pixel(2048, 2048, Rgba([255u8, 0, 0, 255]));
     let part = ImageBuffer::from_pixel(at.width, at.height, Rgba([255u8, 0, 0, 255]));
 
-    let view = image::GenericImageView::view(&src, at.x, at.y, at.width, at.height);
+    let view = ai_image::GenericImageView::view(&src, at.x, at.y, at.width, at.height);
 
     const BG: Rgba<u8> = Rgba([0u8, 0, 0, 255]);
-    let samples = image::flat::FlatSamples::with_monocolor(&BG, at.width, at.height);
+    let samples = ai_image::flat::FlatSamples::with_monocolor(&BG, at.width, at.height);
     let singular = samples.as_view().unwrap();
 
     let mut samples = src.as_flat_samples();
@@ -51,10 +51,10 @@ pub fn bench_copy_subimage_from(c: &mut Criterion) {
 
     let src = ImageBuffer::from_pixel(vp.width, vp.height, Rgba([255u8, 0, 0, 255]));
     let part = ImageBuffer::from_pixel(at.width, at.height, Rgba([255u8, 0, 0, 255]));
-    let view = image::GenericImageView::view(&src, at.x, at.y, at.width, at.height);
+    let view = ai_image::GenericImageView::view(&src, at.x, at.y, at.width, at.height);
 
     const BG: Rgba<u8> = Rgba([0u8, 0, 0, 255]);
-    let samples = image::flat::FlatSamples::with_monocolor(&BG, at.width, at.height);
+    let samples = ai_image::flat::FlatSamples::with_monocolor(&BG, at.width, at.height);
     let singular = samples.as_view().unwrap();
 
     let mut samples = src.as_flat_samples();
@@ -89,8 +89,8 @@ criterion_group!(benches, bench_copy_from, bench_copy_subimage_from);
 criterion_main!(benches);
 
 // Backport of the constructor.
-fn rect_from_xy_ranges(x: std::ops::Range<u32>, y: std::ops::Range<u32>) -> image::math::Rect {
-    image::math::Rect {
+fn rect_from_xy_ranges(x: std::ops::Range<u32>, y: std::ops::Range<u32>) -> ai_image::math::Rect {
+    ai_image::math::Rect {
         x: x.start,
         y: y.start,
         width: x.end - x.start,

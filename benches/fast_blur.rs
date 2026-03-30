@@ -1,5 +1,5 @@
 use criterion::{criterion_group, criterion_main, Criterion};
-use image::{imageops::fast_blur, ImageBuffer, Rgb};
+use ai_image::{imageops::fast_blur, ImageBuffer, Rgb};
 
 pub fn bench_fast_blur(c: &mut Criterion) {
     let src = ImageBuffer::from_pixel(1024, 768, Rgb([255u8, 0, 0]));

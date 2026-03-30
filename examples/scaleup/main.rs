@@ -1,5 +1,5 @@
-use image::imageops::FilterType;
-use image::ImageFormat;
+use ai_image::imageops::FilterType;
+use ai_image::ImageFormat;
 use std::fmt;
 use std::fs::File;
 use std::time::{Duration, Instant};
@@ -25,7 +25,7 @@ impl fmt::Display for Elapsed {
 }
 
 fn main() {
-    let tiny = image::open("examples/scaleup/tinycross.png").unwrap();
+    let tiny = ai_image::open("examples/scaleup/tinycross.png").unwrap();
     for &(name, filter) in &[
         ("near", FilterType::Nearest),
         ("tri", FilterType::Triangle),

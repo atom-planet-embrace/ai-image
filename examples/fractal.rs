@@ -1,5 +1,5 @@
 //! An example of generating julia fractals.
-extern crate image;
+extern crate ai_image as image;
 extern crate num_complex;
 
 fn main() {

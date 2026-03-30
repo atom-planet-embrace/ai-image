@@ -1,6 +1,6 @@
 use criterion::{criterion_group, criterion_main, Criterion};
-use image::imageops::{blur_advanced, fast_blur, GaussianBlurParameters};
-use image::{DynamicImage, ImageBuffer, Rgb, RgbImage};
+use ai_image::imageops::{blur_advanced, fast_blur, GaussianBlurParameters};
+use ai_image::{DynamicImage, ImageBuffer, Rgb, RgbImage};
 
 pub fn bench_fast_blur(c: &mut Criterion) {
     let src = ImageBuffer::from_pixel(1024, 768, Rgb([255u8, 0, 0]));

@@ -1,5 +1,5 @@
-use image::imageops::GaussianBlurParameters;
-use image::ImageReader;
+use ai_image::imageops::GaussianBlurParameters;
+use ai_image::ImageReader;
 
 fn main() {
     let path = concat!(
