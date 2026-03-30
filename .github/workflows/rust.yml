@@ -195,6 +195,8 @@ jobs:
         sed -i 's/rayon = { ver/rayon = { public = true, ver/' Cargo.toml
         # mark num-traits crate as public
         sed -i 's/num-traits = { ver/num-traits = { public = true, ver/' Cargo.toml
+        # mark no_std_io crate as public
+        sed -i 's/no_std_io = { ver/no_std_io = { public = true, ver/' Cargo.toml
         # cargo +nightly check
         cargo check
 
