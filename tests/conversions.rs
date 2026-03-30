@@ -1,4 +1,3 @@
-
 use ai_image::buffer::ConvertBuffer;
 use ai_image::{ImageBuffer, Rgb, Rgba};
 

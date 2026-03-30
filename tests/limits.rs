@@ -13,7 +13,6 @@
 //!
 //! These tests also don't cover animation (yet). Adding tests for that would be very welcome too.
 
-
 use std::io::Cursor;
 
 use ai_image::{

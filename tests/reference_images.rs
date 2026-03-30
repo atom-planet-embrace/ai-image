@@ -4,9 +4,9 @@ use std::fs;
 use std::io;
 use std::path::PathBuf;
 
-use crc32fast::Hasher as Crc32;
 use ai_image::DynamicImage;
 use ai_image::ImageReader;
+use crc32fast::Hasher as Crc32;
 
 const BASE_PATH: [&str; 2] = [".", "tests"];
 const IMAGE_DIR: &str = "images";
@@ -399,9 +399,10 @@ fn check_hdr_references() {
         ref_path.set_extension("raw");
         println!("{}", ref_path.display());
         println!("{}", path.display());
-        let decoder =
-            ai_image::codecs::hdr::HdrDecoder::new(io::BufReader::new(fs::File::open(&path).unwrap()))
-                .unwrap();
+        let decoder = ai_image::codecs::hdr::HdrDecoder::new(io::BufReader::new(
+            fs::File::open(&path).unwrap(),
+        ))
+        .unwrap();
         let decoded = match DynamicImage::from_decoder(decoder).unwrap() {
             DynamicImage::ImageRgb32F(img) => img.into_vec(),
             _ => unreachable!(),
