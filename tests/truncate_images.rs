@@ -5,7 +5,7 @@ use std::io::Read;
 use std::path::PathBuf;
 
 extern crate glob;
-extern crate image;
+extern crate ai_image as image;
 
 const BASE_PATH: [&str; 2] = [".", "tests"];
 const IMAGE_DIR: &str = "images";

@@ -1,7 +1,7 @@
 //! Test saving images to PNM.
 #![cfg(all(feature = "png", feature = "pnm"))]
 
-extern crate image;
+extern crate ai_image as image;
 use std::fs;
 
 use image::{GenericImageView as _, Luma, Rgb};

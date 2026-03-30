@@ -1,6 +1,6 @@
 //! Test saving "default" and specific quality jpeg.
 #![cfg(all(feature = "jpeg", feature = "tiff"))]
-extern crate image;
+extern crate ai_image as image;
 
 use image::codecs::jpeg::JpegEncoder;
 

@@ -4,8 +4,9 @@ version = "0.0.1"
 edition = "2021"
 publish = false
 
-[dependencies.image]
+[dependencies.ai-image]
 path = ".."
+features = ["std"]
 
 [dependencies.afl]
 version = "0.12.8"

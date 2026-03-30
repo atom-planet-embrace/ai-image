@@ -1,5 +1,5 @@
 extern crate afl;
-extern crate image;
+extern crate ai_image as image;
 
 use std::io::Cursor;
 

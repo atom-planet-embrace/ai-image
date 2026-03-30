@@ -7,7 +7,7 @@ use std::io::Cursor;
 
 use image::{ImageBuffer, Rgba};
 #[macro_use] extern crate libfuzzer_sys;
-extern crate image;
+extern crate ai_image as image;
 
 fuzz_target!(|data: &[u8]| {
     if data.len() > 3 {

@@ -9,8 +9,9 @@ publish = false
 [package.metadata]
 cargo-fuzz = true
 
-[dependencies.image]
+[dependencies.ai-image]
 path = ".."
+features = ["std"]
 [dependencies.libfuzzer-sys]
 version = "0.4"
 

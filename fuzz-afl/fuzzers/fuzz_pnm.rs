@@ -1,5 +1,5 @@
 extern crate afl;
-extern crate image;
+extern crate ai_image as image;
 
 use image::{DynamicImage, ImageDecoder};
 use image::error::{ImageError, ImageResult, LimitError, LimitErrorKind};
