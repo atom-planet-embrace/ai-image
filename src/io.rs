@@ -38,6 +38,8 @@ pub(crate) trait ReadExt {
 impl<R: io::Read> ReadExt for R {
     fn read_exact_vec(&mut self, vec: &mut alloc::vec::Vec<u8>, len: usize) -> io::Result<()> {
         let initial_len = vec.len();
+        // no_std_io::Error doesn't provide other()
+        #[allow(clippy::io_other_error)]
         vec.try_reserve(len).map_err(|_| io::Error::new(io::ErrorKind::Other, "allocation failed"))?;
         vec.resize(initial_len + len, 0);
         match self.read_exact(&mut vec[initial_len..]) {

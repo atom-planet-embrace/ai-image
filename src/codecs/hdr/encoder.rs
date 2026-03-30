@@ -1,5 +1,7 @@
 use alloc::{format, vec, vec::Vec};
 use core::cmp::Ordering;
+#[cfg(not(feature = "std"))]
+use num_traits::Float as _;
 use no_std_io::io::{Result, Write};
 
 use crate::codecs::hdr::{rgbe8, Rgbe8Pixel, SIGNATURE};
@@ -286,10 +288,10 @@ pub(crate) fn to_rgbe8(pix: Rgb<f32>) -> Rgbe8Pixel {
     } else {
         // let (frac, exp) = mx.frexp(); // unstable yet
         let exp = mx.log2().floor() as i32 + 1;
-        let mul = f32::powi(2.0, exp);
+        let mul = 2.0f32.powi(exp);
         let mut conv = [0u8; 3];
         for (cv, &sv) in conv.iter_mut().zip(pix.iter()) {
-            *cv = f32::trunc(sv / mul * 256.0) as u8;
+            *cv = (sv / mul * 256.0).trunc() as u8;
         }
         Rgbe8Pixel {
             c: conv,

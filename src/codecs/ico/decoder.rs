@@ -332,7 +332,9 @@ impl<R: BufRead + Seek> ImageDecoder for IcoDecoder<R> {
                 decoder.read_image_data(buf)?;
 
                 let r = decoder.reader();
-                let image_end = r.stream_position()?;
+                // no_std_io::Seek doesn't provide stream_position()
+                #[allow(clippy::seek_from_current)]
+                let image_end = r.seek(SeekFrom::Current(0))?;
                 let data_end = u64::from(self.selected_entry.image_offset)
                     + u64::from(self.selected_entry.image_length);
 

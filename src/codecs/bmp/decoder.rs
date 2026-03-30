@@ -782,7 +782,9 @@ impl<R: BufRead + Seek> BmpDecoder<R> {
     fn read_metadata(&mut self) -> ImageResult<()> {
         if !self.has_loaded_metadata {
             self.read_file_header()?;
-            let bmp_header_offset = self.reader.stream_position()?;
+            // no_std_io::Seek doesn't provide stream_position()
+            #[allow(clippy::seek_from_current)]
+            let bmp_header_offset = self.reader.seek(SeekFrom::Current(0))?;
             let bmp_header_size = self.reader.read_u32::<LittleEndian>()?;
             let bmp_header_end = bmp_header_offset + u64::from(bmp_header_size);
 
@@ -853,7 +855,11 @@ impl<R: BufRead + Seek> BmpDecoder<R> {
 
             if self.no_file_header {
                 // Use the offset of the end of metadata instead of reading a BMP file header.
-                self.data_offset = self.reader.stream_position()?;
+                // no_std_io::Seek doesn't provide stream_position()
+                #[allow(clippy::seek_from_current)]
+                {
+                    self.data_offset = self.reader.seek(SeekFrom::Current(0))?;
+                }
             }
 
             self.has_loaded_metadata = true;
@@ -1380,7 +1386,9 @@ impl<R: BufRead + Seek> ImageDecoderRect for BmpDecoder<R> {
         buf: &mut [u8],
         row_pitch: usize,
     ) -> ImageResult<()> {
-        let start = self.reader.stream_position()?;
+        // no_std_io::Seek doesn't provide stream_position()
+        #[allow(clippy::seek_from_current)]
+        let start = self.reader.seek(SeekFrom::Current(0))?;
         load_rect(
             x,
             y,

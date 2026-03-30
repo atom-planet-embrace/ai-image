@@ -3,6 +3,8 @@ use core::error;
 use core::fmt::{self, Display};
 use no_std_io::io::{self, Read};
 use core::mem::size_of;
+#[cfg(not(feature = "std"))]
+use num_traits::float::FloatCore as _;
 use core::num::ParseIntError;
 use core::str;
 

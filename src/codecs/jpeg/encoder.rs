@@ -2,6 +2,8 @@
 use alloc::{borrow::Cow, vec, vec::Vec};
 use no_std_io::io::{self, Write};
 use core::{error, fmt};
+#[cfg(not(feature = "std"))]
+use num_traits::float::FloatCore as _;
 
 use crate::error::{
     EncodingError, ImageError, ImageResult, UnsupportedError, UnsupportedErrorKind,

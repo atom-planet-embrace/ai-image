@@ -599,7 +599,8 @@ impl SampleWriter<'_> {
         let line_width = (width - 1) / 8 + 1;
 
         // We'll be writing single bytes, so buffer
-        let mut line_buffer = vec_try_with_capacity(line_width as usize)?;
+        let mut line_buffer = vec_try_with_capacity(line_width as usize)
+            .map_err(|_| io::Error::from(io::ErrorKind::Other))?;
 
         for line in samples.chunks(width as usize) {
             for byte_bits in line.chunks(8) {

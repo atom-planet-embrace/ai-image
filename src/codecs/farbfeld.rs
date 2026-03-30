@@ -40,16 +40,12 @@ impl<R: Read> FarbfeldReader<R> {
     fn new(mut buffered_read: R) -> ImageResult<FarbfeldReader<R>> {
         fn read_dimm<R: Read>(from: &mut R) -> ImageResult<u32> {
             let mut buf = [0u8; 4];
-            from.read_exact(&mut buf).map_err(|err| {
-                ImageError::Decoding(DecodingError::new(ImageFormat::Farbfeld.into(), err))
-            })?;
+            from.read_exact(&mut buf).map_err(ImageError::IoError)?;
             Ok(u32::from_be_bytes(buf))
         }
 
         let mut magic = [0u8; 8];
-        buffered_read.read_exact(&mut magic).map_err(|err| {
-            ImageError::Decoding(DecodingError::new(ImageFormat::Farbfeld.into(), err))
-        })?;
+        buffered_read.read_exact(&mut magic).map_err(ImageError::IoError)?;
         if &magic != b"farbfeld" {
             return Err(ImageError::Decoding(DecodingError::new(
                 ImageFormat::Farbfeld.into(),
@@ -228,7 +224,9 @@ impl<R: Read + Seek> ImageDecoderRect for FarbfeldDecoder<R> {
     ) -> ImageResult<()> {
         // A "scanline" (defined as "shortest non-caching read" in the doc) is just one channel in this case
 
-        let start = self.reader.stream_position()?;
+        // no_std_io::Seek doesn't provide stream_position()
+        #[allow(clippy::seek_from_current)]
+        let start = self.reader.seek(SeekFrom::Current(0))?;
         load_rect(
             x,
             y,

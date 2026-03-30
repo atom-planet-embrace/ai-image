@@ -16,7 +16,8 @@ pub(crate) struct AutoBreak<W: io::Write> {
 impl<W: io::Write> AutoBreak<W> {
     pub(crate) fn new(writer: W, line_capacity: usize) -> io::Result<Self> {
         let mut line = Vec::new();
-        line.try_reserve_exact(line_capacity + 1)?;
+        line.try_reserve_exact(line_capacity + 1)
+            .map_err(|_| io::Error::from(io::ErrorKind::Other))?;
         Ok(AutoBreak {
             wrapped: writer,
             line_capacity,
