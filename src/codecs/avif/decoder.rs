@@ -4,10 +4,7 @@ use crate::error::{
     UnsupportedErrorKind,
 };
 use crate::{ColorType, ImageDecoder, ImageError, ImageFormat, ImageResult};
-use alloc::{
-    borrow::Cow, borrow::ToOwned, boxed::Box, format, string::String, string::ToString, vec,
-    vec::Vec,
-};
+use alloc::{boxed::Box, format, string::ToString, vec, vec::Vec};
 ///
 /// The [AVIF] specification defines an image derivative of the AV1 bitstream, an open video codec.
 ///
