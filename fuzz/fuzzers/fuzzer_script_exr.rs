@@ -1,14 +1,13 @@
 #![no_main]
 #[macro_use]
 extern crate libfuzzer_sys;
-extern crate ai_image as image;
 
-use image::codecs::openexr::*;
-use image::Limits;
-use image::ExtendedColorType;
-use image::ImageDecoder;
-use image::ImageEncoder;
-use image::ImageResult;
+use ai_image::codecs::openexr::*;
+use ai_image::Limits;
+use ai_image::ExtendedColorType;
+use ai_image::ImageDecoder;
+use ai_image::ImageEncoder;
+use ai_image::ImageResult;
 use std::io::{BufRead, Cursor, Seek, Write};
 
 // "just dont panic"
@@ -25,9 +24,9 @@ fn roundtrip(bytes: &[u8]) -> ImageResult<()> {
                 decoder.read_image(buffer.as_mut_slice())?;
                 Ok((width, height, buffer))
             }
-            _ => Err(image::ImageError::Limits(
-                image::error::LimitError::from_kind(
-                    image::error::LimitErrorKind::InsufficientMemory,
+            _ => Err(ai_image::ImageError::Limits(
+                ai_image::error::LimitError::from_kind(
+                    ai_image::error::LimitErrorKind::InsufficientMemory,
                 ),
             )),
         }

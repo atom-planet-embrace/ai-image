@@ -9,9 +9,9 @@
 //! ```no_run
 //! use std::ptr;
 //! use core::slice;
-//! use image::Rgb;
-//! use image::flat::{FlatSamples, SampleLayout};
-//! use image::imageops::thumbnail;
+//! use ai_image::Rgb;
+//! use ai_image::flat::{FlatSamples, SampleLayout};
+//! use ai_image::imageops::thumbnail;
 //!
 //! #[no_mangle]
 //! pub extern "C" fn store_rgb8_compressed(
@@ -131,7 +131,7 @@ impl SampleLayout {
     /// safely to an `ImageBuffer` with a large enough underlying buffer.
     ///
     /// ```
-    /// # use image::flat::{NormalForm, SampleLayout};
+    /// # use ai_image::flat::{NormalForm, SampleLayout};
     /// let layout = SampleLayout::row_major_packed(3, 640, 480);
     /// assert!(layout.is_normal(NormalForm::RowMajorPacked));
     /// ```
@@ -162,7 +162,7 @@ impl SampleLayout {
     /// useful for conversion but can be used to describe such a buffer without pitfalls.
     ///
     /// ```
-    /// # use image::flat::{NormalForm, SampleLayout};
+    /// # use ai_image::flat::{NormalForm, SampleLayout};
     /// let layout = SampleLayout::column_major_packed(3, 640, 480);
     /// assert!(layout.is_normal(NormalForm::ColumnMajorPacked));
     /// ```
@@ -540,7 +540,7 @@ impl<Buffer> FlatSamples<Buffer> {
     /// check all bounds and not panic as long as `Buffer::as_ref` does not do so.
     ///
     /// ```
-    /// # use image::{RgbImage};
+    /// # use ai_image::{RgbImage};
     /// let flat = RgbImage::new(480, 640).into_flat_samples();
     ///
     /// // Get the blue channel at (10, 10).
@@ -574,7 +574,7 @@ impl<Buffer> FlatSamples<Buffer> {
     /// here can in fact modify more than the coordinate in the argument.
     ///
     /// ```
-    /// # use image::{RgbImage};
+    /// # use ai_image::{RgbImage};
     /// let mut flat = RgbImage::new(480, 640).into_flat_samples();
     ///
     /// // Assign some new color to the blue channel at (10, 10).
@@ -951,7 +951,7 @@ impl<'buf, Subpixel> FlatSamples<&'buf [Subpixel]> {
     ///
     /// ```
     /// # fn paint_something<T>(_: T) {}
-    /// use image::{flat::FlatSamples, GenericImage, RgbImage, Rgb};
+    /// use ai_image::{flat::FlatSamples, GenericImage, RgbImage, Rgb};
     ///
     /// let background = Rgb([20, 20, 20]);
     /// let bg = FlatSamples::with_monocolor(&background, 200, 200);
@@ -1221,8 +1221,8 @@ where
     /// `self.into_inner().as_view_mut()` and keeps the `View` alive on failure.
     ///
     /// ```
-    /// # use image::RgbImage;
-    /// # use image::Rgb;
+    /// # use ai_image::RgbImage;
+    /// # use ai_image::Rgb;
     /// let mut buffer = RgbImage::new(480, 640).into_flat_samples();
     /// let view = buffer.as_view_with_mut_samples::<Rgb<u8>>().unwrap();
     ///

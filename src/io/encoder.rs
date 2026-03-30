@@ -7,11 +7,11 @@ use alloc::{boxed::Box, vec::Vec};
 /// To be somewhat sure here's a compile fail test:
 ///
 /// ```compile_fail
-/// use image::MethodSealedToImage;
+/// use ai_image::MethodSealedToImage;
 /// ```
 ///
 /// ```compile_fail
-/// use image::io::MethodSealedToImage;
+/// use ai_image::io::MethodSealedToImage;
 /// ```
 ///
 /// The same implementation strategy for a partially public trait is used in the standard library,

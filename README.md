@@ -18,7 +18,7 @@ Load images using [`ImageReader`]:
 
 ```rust,ignore
 use std::io::Cursor;
-use image::ImageReader;
+use ai_image::ImageReader;
 
 let img = ImageReader::open("myimage.png")?.decode()?;
 let img2 = ImageReader::new(Cursor::new(bytes)).with_guessed_format()?.decode()?;
@@ -30,7 +30,7 @@ And save them using [`save`] or [`write_to`] methods:
 img.save("empty.jpg")?;
 
 let mut bytes: Vec<u8> = Vec::new();
-img2.write_to(&mut Cursor::new(&mut bytes), image::ImageFormat::Png)?;
+img2.write_to(&mut Cursor::new(&mut bytes), ai_image::ImageFormat::Png)?;
 ```
 
 ## Supported Image Formats
@@ -136,11 +136,11 @@ format is determined from the path's file extension. An `io` module provides a
 reader which offer some more control.
 
 ```rust,no_run
-use image::GenericImageView;
+use ai_image::GenericImageView;
 
 // Use the open function to load an image from a Path.
 // `open` returns a `DynamicImage` on success.
-let img = image::open("tests/images/jpg/progressive/cat.jpg").unwrap();
+let img = ai_image::open("tests/images/jpg/progressive/cat.jpg").unwrap();
 
 // The dimensions method returns the images width and height.
 println!("dimensions {:?}", img.dimensions());
@@ -163,13 +163,13 @@ let scalex = 3.0 / imgx as f32;
 let scaley = 3.0 / imgy as f32;
 
 // Create a new ImgBuf with width: imgx and height: imgy
-let mut imgbuf = image::ImageBuffer::new(imgx, imgy);
+let mut imgbuf = ai_image::ImageBuffer::new(imgx, imgy);
 
 // Iterate over the coordinates and pixels of the image
 for (x, y, pixel) in imgbuf.enumerate_pixels_mut() {
     let r = (0.3 * x as f32) as u8;
     let b = (0.3 * y as f32) as u8;
-    *pixel = image::Rgb([r, 0, b]);
+    *pixel = ai_image::Rgb([r, 0, b]);
 }
 
 // A redundant loop to demonstrate reading image data
@@ -188,8 +188,8 @@ for x in 0..imgx {
         }
 
         let pixel = imgbuf.get_pixel_mut(x, y);
-        let image::Rgb(data) = *pixel;
-        *pixel = image::Rgb([data[0], i as u8, data[2]]);
+        let ai_image::Rgb(data) = *pixel;
+        *pixel = ai_image::Rgb([data[0], i as u8, data[2]]);
     }
 }
 
@@ -208,5 +208,5 @@ If the high level interface is not needed because the image was obtained by othe
 let buffer: &[u8] = unimplemented!(); // Generate the image data
 
 // Save the buffer as "image.png"
-image::save_buffer("image.png", buffer, 800, 600, image::ExtendedColorType::Rgb8).unwrap()
+ai_image::save_buffer("image.png", buffer, 800, 600, ai_image::ExtendedColorType::Rgb8).unwrap()
 ```

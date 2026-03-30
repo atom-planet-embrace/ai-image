@@ -1,12 +1,11 @@
 //! Test saving "default" and specific quality jpeg.
 #![cfg(all(feature = "jpeg", feature = "tiff"))]
-extern crate ai_image as image;
 
-use image::codecs::jpeg::JpegEncoder;
+use ai_image::codecs::jpeg::JpegEncoder;
 
 #[test]
 fn jqeg_qualitys() {
-    let img = image::open("tests/images/tiff/testsuite/mandrill.tiff").unwrap();
+    let img = ai_image::open("tests/images/tiff/testsuite/mandrill.tiff").unwrap();
 
     let mut default = vec![];
     let encoder = JpegEncoder::new(&mut default);

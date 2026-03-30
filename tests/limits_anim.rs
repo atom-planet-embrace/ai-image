@@ -1,10 +1,9 @@
 //! Test enforcement of size and memory limits for animation decoding APIs.
-extern crate ai_image as image;
 
-use image::{AnimationDecoder, ImageDecoder, ImageResult, Limits};
+use ai_image::{AnimationDecoder, ImageDecoder, ImageResult, Limits};
 
 #[cfg(feature = "gif")]
-use image::codecs::gif::GifDecoder;
+use ai_image::codecs::gif::GifDecoder;
 
 #[cfg(feature = "gif")]
 fn gif_decode(data: &[u8], limits: Limits) -> ImageResult<()> {
@@ -26,7 +25,7 @@ fn gif_decode(data: &[u8], limits: Limits) -> ImageResult<()> {
 fn assert_limit_error(res: ImageResult<()>) {
     let err = res.expect_err("The input should have been rejected because it exceeds limits");
     match err {
-        image::ImageError::Limits(_) => (), // all good
+        ai_image::ImageError::Limits(_) => (), // all good
         _ => panic!("Decoding failed due to an error unrelated to limits"),
     }
 }

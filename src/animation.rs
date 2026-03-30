@@ -72,7 +72,7 @@ impl Clone for Frame {
 /// granularity of the interval.
 ///
 /// ```
-/// use image::Delay;
+/// use ai_image::Delay;
 /// let delay_10ms = Delay::from_numer_denom_ms(10, 1);
 /// let delay_10000us = Delay::from_numer_denom_ms(10_000, 1_000);
 ///
@@ -148,7 +148,7 @@ impl Delay {
     /// # Examples
     ///
     /// ```
-    /// use image::Delay;
+    /// use ai_image::Delay;
     /// let delay_10ms = Delay::from_numer_denom_ms(10, 1);
     /// ```
     #[must_use]
@@ -167,7 +167,7 @@ impl Delay {
     ///
     /// ```
     /// use core::time::Duration;
-    /// use image::Delay;
+    /// use ai_image::Delay;
     ///
     /// let duration = Duration::from_millis(20);
     /// let delay = Delay::from_saturating_duration(duration);

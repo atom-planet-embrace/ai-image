@@ -69,7 +69,7 @@ impl ImageFormat {
     /// # Example
     ///
     /// ```
-    /// use image::ImageFormat;
+    /// use ai_image::ImageFormat;
     ///
     /// let format = ImageFormat::from_extension("jpg");
     /// assert_eq!(format, Some(ImageFormat::Jpeg));
@@ -117,12 +117,12 @@ impl ImageFormat {
     /// # Example
     ///
     /// ```
-    /// use image::ImageFormat;
+    /// use ai_image::ImageFormat;
     ///
     /// let format = ImageFormat::from_path("images/ferris.png")?;
     /// assert_eq!(format, ImageFormat::Png);
     ///
-    /// # Ok::<(), image::error::ImageError>(())
+    /// # Ok::<(), ai_image::error::ImageError>(())
     /// ```
     #[cfg(feature = "std")]
     #[inline]
@@ -152,7 +152,7 @@ impl ImageFormat {
     /// # Example
     ///
     /// ```
-    /// use image::ImageFormat;
+    /// use ai_image::ImageFormat;
     ///
     /// let format = ImageFormat::from_mime_type("image/png").unwrap();
     /// assert_eq!(format, ImageFormat::Png);
@@ -200,7 +200,7 @@ impl ImageFormat {
     /// # Example
     ///
     /// ```
-    /// use image::ImageFormat;
+    /// use ai_image::ImageFormat;
     ///
     /// let mime_type = ImageFormat::Png.to_mime_type();
     /// assert_eq!(mime_type, "image/png");

@@ -1,13 +1,12 @@
 //! Compares the decoding results with reference renderings.
-extern crate ai_image as image;
 
 use std::fs;
 use std::io;
 use std::path::PathBuf;
 
 use crc32fast::Hasher as Crc32;
-use image::DynamicImage;
-use image::ImageReader;
+use ai_image::DynamicImage;
+use ai_image::ImageReader;
 
 const BASE_PATH: [&str; 2] = [".", "tests"];
 const IMAGE_DIR: &str = "images";
@@ -46,7 +45,7 @@ where
 fn render_images() {
     process_images(IMAGE_DIR, None, |base, path, decoder| {
         println!("render_images {}", path.display());
-        let img = match image::open(&path) {
+        let img = match ai_image::open(&path) {
             Ok(DynamicImage::ImageRgb32F(_) | DynamicImage::ImageRgba32F(_)) => {
                 println!("Skipping {} - HDR codec is not enabled", path.display());
                 return;
@@ -55,7 +54,7 @@ fn render_images() {
             // Do not fail on unsupported error
             // This might happen because the testsuite contains unsupported images
             // or because a specific decoder included via a feature.
-            Err(image::ImageError::Unsupported(e)) => {
+            Err(ai_image::ImageError::Unsupported(e)) => {
                 println!("UNSUPPORTED {}: {}", path.display(), e);
                 return;
             }
@@ -91,7 +90,7 @@ struct ReferenceTestCase {
 }
 
 enum ReferenceTestKind {
-    /// The test image is loaded using `image::open`, and the result is compared
+    /// The test image is loaded using `ai_image::open`, and the result is compared
     /// against the reference image.
     SingleImage,
 
@@ -159,12 +158,12 @@ fn check_references() {
     process_images(REFERENCE_DIR, Some("png"), |base, path, decoder| {
         println!("check_references {}", path.display());
 
-        let ref_img = match image::open(&path) {
+        let ref_img = match ai_image::open(&path) {
             Ok(img) => img,
             // Do not fail on unsupported error
             // This might happen because the testsuite contains unsupported images
             // or because a specific decoder included via a feature.
-            Err(image::ImageError::Unsupported(_)) => return,
+            Err(ai_image::ImageError::Unsupported(_)) => return,
             Err(err) => panic!("{}", err),
         };
 
@@ -195,13 +194,13 @@ fn check_references() {
                     .format();
 
                 #[cfg(feature = "gif")]
-                if format == Some(image::ImageFormat::Gif) {
+                if format == Some(ai_image::ImageFormat::Gif) {
                     // Interpret the input file as an animation file
-                    use image::AnimationDecoder;
+                    use ai_image::AnimationDecoder;
                     let stream = io::BufReader::new(fs::File::open(&img_path).unwrap());
-                    let decoder = match image::codecs::gif::GifDecoder::new(stream) {
+                    let decoder = match ai_image::codecs::gif::GifDecoder::new(stream) {
                         Ok(decoder) => decoder,
-                        Err(image::ImageError::Unsupported(_)) => return,
+                        Err(ai_image::ImageError::Unsupported(_)) => return,
                         Err(err) => {
                             panic!("decoding of {img_path:?} failed with: {err}")
                         }
@@ -209,7 +208,7 @@ fn check_references() {
 
                     let mut frames = match decoder.into_frames().collect_frames() {
                         Ok(frames) => frames,
-                        Err(image::ImageError::Unsupported(_)) => return,
+                        Err(ai_image::ImageError::Unsupported(_)) => return,
                         Err(err) => {
                             panic!("collecting frames of {img_path:?} failed with: {err}")
                         }
@@ -223,13 +222,13 @@ fn check_references() {
                 }
 
                 #[cfg(feature = "png")]
-                if format == Some(image::ImageFormat::Png) {
+                if format == Some(ai_image::ImageFormat::Png) {
                     // Interpret the input file as an animation file
-                    use image::AnimationDecoder;
+                    use ai_image::AnimationDecoder;
                     let stream = io::BufReader::new(fs::File::open(&img_path).unwrap());
-                    let decoder = match image::codecs::png::PngDecoder::new(stream) {
+                    let decoder = match ai_image::codecs::png::PngDecoder::new(stream) {
                         Ok(decoder) => decoder.apng().unwrap(),
-                        Err(image::ImageError::Unsupported(_)) => return,
+                        Err(ai_image::ImageError::Unsupported(_)) => return,
                         Err(err) => {
                             panic!("decoding of {img_path:?} failed with: {err}")
                         }
@@ -237,7 +236,7 @@ fn check_references() {
 
                     let mut frames = match decoder.into_frames().collect_frames() {
                         Ok(frames) => frames,
-                        Err(image::ImageError::Unsupported(_)) => return,
+                        Err(ai_image::ImageError::Unsupported(_)) => return,
                         Err(err) => {
                             panic!("collecting frames of {img_path:?} failed with: {err}")
                         }
@@ -258,12 +257,12 @@ fn check_references() {
 
             ReferenceTestKind::SingleImage => {
                 // Read the input file as a single image
-                match image::open(&img_path) {
+                match ai_image::open(&img_path) {
                     Ok(img) => test_img = Some(img),
                     // Do not fail on unsupported error
                     // This might happen because the testsuite contains unsupported images
                     // or because a specific decoder included via a feature.
-                    Err(image::ImageError::Unsupported(_)) => return,
+                    Err(ai_image::ImageError::Unsupported(_)) => return,
                     Err(err) => panic!("decoding of {img_path:?} failed with: {err}"),
                 };
             }
@@ -401,7 +400,7 @@ fn check_hdr_references() {
         println!("{}", ref_path.display());
         println!("{}", path.display());
         let decoder =
-            image::codecs::hdr::HdrDecoder::new(io::BufReader::new(fs::File::open(&path).unwrap()))
+            ai_image::codecs::hdr::HdrDecoder::new(io::BufReader::new(fs::File::open(&path).unwrap()))
                 .unwrap();
         let decoded = match DynamicImage::from_decoder(decoder).unwrap() {
             DynamicImage::ImageRgb32F(img) => img.into_vec(),

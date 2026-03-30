@@ -1,11 +1,10 @@
-extern crate ai_image as image;
 
 use std::fs::{self, File};
 use std::io::{BufReader, Cursor};
 use std::path::PathBuf;
 
 #[cfg(feature = "webp")]
-use image::{codecs::webp::WebPDecoder, AnimationDecoder};
+use ai_image::{codecs::webp::WebPDecoder, AnimationDecoder};
 
 const BASE_PATH: [&str; 2] = [".", "tests"];
 const IMAGE_DIR: &str = "images";
@@ -41,7 +40,7 @@ where
 #[test]
 fn check_regressions() {
     process_images(REGRESSION_DIR, None, |path| {
-        let _ = image::open(path);
+        let _ = ai_image::open(path);
     });
 }
 /// Check that the WEBP frames iterator returns the right amount of frames.
@@ -96,7 +95,7 @@ fn bad_bmps() {
         // Manually reading the file so we can use load() instead of open()
         // We have to use load() so we can override the format
         let im_file = BufReader::new(File::open(path).unwrap());
-        let im = image::load(im_file, image::ImageFormat::Bmp);
+        let im = ai_image::load(im_file, ai_image::ImageFormat::Bmp);
         assert!(im.is_err());
     }
 }
@@ -117,9 +116,9 @@ fn bmp_bitfields() {
         .join("bmp/raw")
         .join("windows_dibv5_dump.bin");
     let im_file = BufReader::new(File::open(path).unwrap());
-    let decoder = image::codecs::bmp::BmpDecoder::new_without_file_header(im_file).unwrap();
+    let decoder = ai_image::codecs::bmp::BmpDecoder::new_without_file_header(im_file).unwrap();
 
-    let im_buffer = image::DynamicImage::from_decoder(decoder)
+    let im_buffer = ai_image::DynamicImage::from_decoder(decoder)
         .unwrap()
         .into_rgba8()
         .into_raw();
@@ -145,19 +144,19 @@ fn bad_gif_oom() {
     //
     // So instead we look for a limits error (or an unsupported error, for the case that we're
     // running these tests without gif being actually supported)
-    let error = image::load_from_memory(data).unwrap_err();
+    let error = ai_image::load_from_memory(data).unwrap_err();
 
     assert!(
-        matches!(error, image::ImageError::Limits(_))
-            | matches!(error, image::ImageError::Unsupported(_))
+        matches!(error, ai_image::ImageError::Limits(_))
+            | matches!(error, ai_image::ImageError::Unsupported(_))
     );
 }
 
 #[test]
 #[cfg(feature = "gif")]
 fn gif_regressions() {
-    use image::codecs::gif::GifDecoder;
-    use image::AnimationDecoder as _;
+    use ai_image::codecs::gif::GifDecoder;
+    use ai_image::AnimationDecoder as _;
 
     let base: PathBuf = BASE_PATH.iter().collect();
     let path = base.join("regression/gif/zero-loop-count.gif");

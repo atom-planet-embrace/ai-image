@@ -248,7 +248,7 @@ impl ExtendedColorType {
     /// # Example
     ///
     /// ```
-    /// use image::{ColorType, ExtendedColorType};
+    /// use ai_image::{ColorType, ExtendedColorType};
     ///
     /// assert_eq!(Some(ColorType::L8), ExtendedColorType::L8.color_type());
     /// assert_eq!(None, ExtendedColorType::L1.color_type());
@@ -258,7 +258,7 @@ impl ExtendedColorType {
     /// error path. Choose the more ergonomic option in your usage.
     ///
     /// ```
-    /// use image::{ColorType, ExtendedColorType, ImageError};
+    /// use ai_image::{ColorType, ExtendedColorType, ImageError};
     ///
     /// fn handle_errors() -> Result<(), ImageError> {
     ///     let color: ColorType = ExtendedColorType::L8.try_into()?;

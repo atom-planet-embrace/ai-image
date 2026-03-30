@@ -17,8 +17,8 @@
 //!
 //! ```rust,no_run
 //! use no_std_io::io::Cursor;
-//! use image::ImageReader;
-//! # fn main() -> Result<(), image::ImageError> {
+//! use ai_image::ImageReader;
+//! # fn main() -> Result<(), ai_image::ImageError> {
 //! # let bytes = vec![0u8];
 //!
 //! let img = ImageReader::open("myimage.png")?.decode()?;
@@ -31,15 +31,15 @@
 //!
 //! ```rust,no_run
 //! # use no_std_io::io::{Write, Cursor};
-//! # use image::{DynamicImage, ImageFormat};
+//! # use ai_image::{DynamicImage, ImageFormat};
 //! # #[cfg(feature = "png")]
-//! # fn main() -> Result<(), image::ImageError> {
+//! # fn main() -> Result<(), ai_image::ImageError> {
 //! # let img: DynamicImage = unimplemented!();
 //! # let img2: DynamicImage = unimplemented!();
 //! img.save("empty.jpg")?;
 //!
 //! let mut bytes: Vec<u8> = Vec::new();
-//! img2.write_to(&mut Cursor::new(&mut bytes), image::ImageFormat::Png)?;
+//! img2.write_to(&mut Cursor::new(&mut bytes), ai_image::ImageFormat::Png)?;
 //! # Ok(())
 //! # }
 //! # #[cfg(not(feature = "png"))] fn main() {}
@@ -75,11 +75,11 @@
 //! Implementations of [`ImageEncoder`] provides low level control over encoding:
 //! ```rust,no_run
 //! # use no_std_io::io::Write;
-//! # use image::DynamicImage;
-//! # use image::ImageEncoder;
+//! # use ai_image::DynamicImage;
+//! # use ai_image::ImageEncoder;
 //! # #[cfg(feature = "jpeg")]
-//! # fn main() -> Result<(), image::ImageError> {
-//! # use image::codecs::jpeg::JpegEncoder;
+//! # fn main() -> Result<(), ai_image::ImageError> {
+//! # use ai_image::codecs::jpeg::JpegEncoder;
 //! # let img: DynamicImage = unimplemented!();
 //! # let writer: Box<dyn Write> = unimplemented!();
 //! let encoder = JpegEncoder::new_with_quality(&mut writer, 95);
@@ -92,11 +92,11 @@
 //!
 //! ```rust,no_run
 //! # use no_std_io::io::{BufReader, Cursor};
-//! # use image::DynamicImage;
-//! # use image::ImageDecoder;
+//! # use ai_image::DynamicImage;
+//! # use ai_image::ImageDecoder;
 //! # #[cfg(feature = "png")]
-//! # fn main() -> Result<(), image::ImageError> {
-//! # use image::codecs::png::PngDecoder;
+//! # fn main() -> Result<(), ai_image::ImageError> {
+//! # use ai_image::codecs::png::PngDecoder;
 //! # let img: DynamicImage = unimplemented!();
 //! # let reader: BufReader<Cursor<&[u8]>> = unimplemented!();
 //! let decoder = PngDecoder::new(&mut reader)?;

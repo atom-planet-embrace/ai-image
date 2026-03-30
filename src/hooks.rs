@@ -113,7 +113,7 @@ pub fn decoding_hook_registered(extension: &OsStr) -> bool {
 /// ## Using the mask to ignore some bytes
 ///
 /// ```
-/// # use image::hooks::register_format_detection_hook;
+/// # use ai_image::hooks::register_format_detection_hook;
 /// // WebP signature is 'riff' followed by 4 bytes of length and then by 'webp'.
 /// // This requires a mask to ignore the length.
 /// register_format_detection_hook("webp".into(),
@@ -125,7 +125,7 @@ pub fn decoding_hook_registered(extension: &OsStr) -> bool {
 /// ## Multiple signatures
 ///
 /// ```
-/// # use image::hooks::register_format_detection_hook;
+/// # use ai_image::hooks::register_format_detection_hook;
 /// // JPEG XL has two different signatures: https://en.wikipedia.org/wiki/JPEG_XL
 /// // This function should be called twice to register them both.
 /// register_format_detection_hook("jxl".into(), &[0xff, 0x0a], None);

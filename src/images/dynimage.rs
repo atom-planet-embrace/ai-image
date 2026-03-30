@@ -38,7 +38,7 @@ use crate::{
 /// This type can act as a converter between specific `ImageBuffer` instances.
 ///
 /// ```
-/// use image::{DynamicImage, GrayImage, RgbImage};
+/// use ai_image::{DynamicImage, GrayImage, RgbImage};
 ///
 /// let rgb: RgbImage = RgbImage::new(10, 10);
 /// let luma: GrayImage = DynamicImage::ImageRgb8(rgb).into_luma8();
@@ -1148,7 +1148,7 @@ impl DynamicImage {
     ///
     /// ```
     /// # fn only_check_if_this_compiles() -> Result<(), Box<dyn core::error::Error>> {
-    /// use image::{DynamicImage, ImageReader, ImageDecoder};
+    /// use ai_image::{DynamicImage, ImageReader, ImageDecoder};
     ///
     /// let mut decoder = ImageReader::open("file.jpg")?.into_decoder()?;
     /// let orientation = decoder.orientation()?;

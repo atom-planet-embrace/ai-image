@@ -17,13 +17,13 @@ pub(crate) mod image_reader_type;
 pub(crate) mod limits;
 
 #[cfg(feature = "std")]
-#[deprecated(note = "this type has been moved and renamed to image::ImageReader")]
+#[deprecated(note = "this type has been moved and renamed to ai_image::ImageReader")]
 /// Deprecated re-export of `ImageReader` as `Reader`
 pub type Reader<R> = ImageReader<R>;
-#[deprecated(note = "this type has been moved to image::Limits")]
+#[deprecated(note = "this type has been moved to ai_image::Limits")]
 /// Deprecated re-export of `Limits`
 pub type Limits = limits::Limits;
-#[deprecated(note = "this type has been moved to image::LimitSupport")]
+#[deprecated(note = "this type has been moved to ai_image::LimitSupport")]
 /// Deprecated re-export of `LimitSupport`
 pub type LimitSupport = limits::LimitSupport;
 

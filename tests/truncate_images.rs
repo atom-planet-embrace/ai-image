@@ -4,7 +4,6 @@ use std::fs;
 use std::io::Read;
 use std::path::PathBuf;
 
-extern crate ai_image as image;
 extern crate glob;
 
 const BASE_PATH: [&str; 2] = [".", "tests"];
@@ -46,7 +45,7 @@ fn truncate_images(decoder: &str) {
         let mut buf = Vec::with_capacity(max_length);
         fin.take(max_length as u64).read_to_end(&mut buf).unwrap();
         for i in (0..buf.len()).step_by(37) {
-            image::load_from_memory(&buf[..=i]).ok();
+            ai_image::load_from_memory(&buf[..=i]).ok();
         }
     });
 }

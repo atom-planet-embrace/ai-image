@@ -110,7 +110,7 @@ where
     /// extra level of indirection.
     ///
     /// ```
-    /// use image::{GenericImageView, RgbImage, SubImage};
+    /// use ai_image::{GenericImageView, RgbImage, SubImage};
     /// let buffer = RgbImage::new(10, 10);
     ///
     /// let subimage: SubImage<&RgbImage> = buffer.view(0, 0, 10, 10);

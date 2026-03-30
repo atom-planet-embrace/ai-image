@@ -5,9 +5,8 @@
 
 use std::io::Cursor;
 
-use image::{ImageBuffer, Rgba};
+use ai_image::{ImageBuffer, Rgba};
 #[macro_use] extern crate libfuzzer_sys;
-extern crate ai_image as image;
 
 fuzz_target!(|data: &[u8]| {
     if data.len() > 3 {
@@ -29,10 +28,10 @@ fuzz_target!(|data: &[u8]| {
 
             let encoded: Vec<u8> = Vec::new();
             let mut cursor = Cursor::new(encoded);
-            image.write_to(&mut cursor, image::ImageFormat::WebP).unwrap();
+            image.write_to(&mut cursor, ai_image::ImageFormat::WebP).unwrap();
             let encoded = cursor.into_inner();
             // verify that the imade decoded without errors
-            let decoded = image::load_from_memory_with_format(&encoded, image::ImageFormat::WebP).unwrap();
+            let decoded = ai_image::load_from_memory_with_format(&encoded, ai_image::ImageFormat::WebP).unwrap();
             // compare contents - the encoding should be lossless and roundtrip bit-perfectly
             assert_eq!(image.into_vec(), decoded.into_bytes());
         }

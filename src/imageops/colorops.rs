@@ -374,8 +374,8 @@ pub trait ColorMap {
 ///
 /// # Examples
 /// ```
-/// use image::imageops::colorops::{index_colors, BiLevel, ColorMap};
-/// use image::{ImageBuffer, Luma};
+/// use ai_image::imageops::colorops::{index_colors, BiLevel, ColorMap};
+/// use ai_image::{ImageBuffer, Luma};
 ///
 /// let (w, h) = (16, 16);
 /// // Create an image with a smooth horizontal gradient from black (0) to white (255).

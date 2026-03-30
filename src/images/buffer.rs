@@ -624,7 +624,7 @@ where
 /// Create a simple canvas and paint a small cross.
 ///
 /// ```
-/// use image::{RgbImage, Rgb};
+/// use ai_image::{RgbImage, Rgb};
 ///
 /// let mut img = RgbImage::new(32, 32);
 ///
@@ -639,24 +639,24 @@ where
 /// Overlays an image on top of a larger background raster.
 ///
 /// ```no_run
-/// use image::{GenericImage, GenericImageView, ImageBuffer, open};
+/// use ai_image::{GenericImage, GenericImageView, ImageBuffer, open};
 ///
 /// let on_top = open("path/to/some.png").unwrap().into_rgb8();
 /// let mut img = ImageBuffer::from_fn(512, 512, |x, y| {
 ///     if (x + y) % 2 == 0 {
-///         image::Rgb([0, 0, 0])
+///         ai_image::Rgb([0, 0, 0])
 ///     } else {
-///         image::Rgb([255, 255, 255])
+///         ai_image::Rgb([255, 255, 255])
 ///     }
 /// });
 ///
-/// image::imageops::overlay(&mut img, &on_top, 128, 128);
+/// ai_image::imageops::overlay(&mut img, &on_top, 128, 128);
 /// ```
 ///
 /// Convert an `RgbaImage` to a `GrayImage`.
 ///
 /// ```no_run
-/// use image::{open, DynamicImage};
+/// use ai_image::{open, DynamicImage};
 ///
 /// let rgba = open("path/to/some.png").unwrap().into_rgba8();
 /// let gray = DynamicImage::ImageRgba8(rgba).into_luma8();
@@ -1581,11 +1581,11 @@ where
     /// # Examples
     /// Convert RGB image to gray image.
     /// ```no_run
-    /// use image::buffer::ConvertBuffer;
-    /// use image::GrayImage;
+    /// use ai_image::buffer::ConvertBuffer;
+    /// use ai_image::GrayImage;
     ///
     /// let image_path = "examples/fractal.png";
-    /// let image = image::open(&image_path)
+    /// let image = ai_image::open(&image_path)
     ///     .expect("Open file failed")
     ///     .to_rgba8();
     ///

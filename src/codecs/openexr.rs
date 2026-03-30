@@ -286,12 +286,12 @@ fn write_buffer(
 }
 
 // TODO is this struct and trait actually used anywhere?
-/// A thin wrapper that implements `ImageEncoder` for OpenEXR images. Will behave like `image::codecs::openexr::write_buffer`.
+/// A thin wrapper that implements `ImageEncoder` for OpenEXR images. Will behave like `ai_image::codecs::openexr::write_buffer`.
 #[derive(Debug)]
 pub struct OpenExrEncoder<W>(W);
 
 impl<W> OpenExrEncoder<W> {
-    /// Create an `ImageEncoder`. Does not write anything yet. Writing later will behave like `image::codecs::openexr::write_buffer`.
+    /// Create an `ImageEncoder`. Does not write anything yet. Writing later will behave like `ai_image::codecs::openexr::write_buffer`.
     // use constructor, not public field, for future backwards-compatibility
     pub fn new(write: W) -> Self {
         Self(write)

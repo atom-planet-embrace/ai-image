@@ -2,23 +2,22 @@ use std::fs;
 use std::path::PathBuf;
 use std::str::FromStr;
 
-use image::ImageDecoder;
+use ai_image::ImageDecoder;
 
 #[cfg(feature = "jpeg")]
-use image::codecs::jpeg::JpegDecoder;
+use ai_image::codecs::jpeg::JpegDecoder;
 #[cfg(feature = "png")]
-use image::codecs::png::PngDecoder;
+use ai_image::codecs::png::PngDecoder;
 #[cfg(feature = "tiff")]
-use image::codecs::tiff::TiffDecoder;
+use ai_image::codecs::tiff::TiffDecoder;
 #[cfg(feature = "webp")]
-use image::codecs::webp::WebPDecoder;
+use ai_image::codecs::webp::WebPDecoder;
 
-extern crate ai_image as image;
 extern crate glob;
 
 #[test]
 #[cfg(feature = "png")]
-fn test_read_xmp_png() -> Result<(), image::ImageError> {
+fn test_read_xmp_png() -> Result<(), ai_image::ImageError> {
     const XMP_PNG_PATH: &str = "tests/images/png/transparency/tp1n3p08_xmp.png";
     const EXPECTED_PNG_METADATA: &str = "<?xpacket begin='\u{feff}' id='W5M0MpCehiHzreSzNTczkc9d'?>\n<x:xmpmeta xmlns:x='adobe:ns:meta/' x:xmptk='Image::ExifTool 13.25'>\n<rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'>\n\n <rdf:Description rdf:about=''\n  xmlns:dc='http://purl.org/dc/elements/1.1/'>\n  <dc:subject>\n   <rdf:Bag>\n    <rdf:li>sunset, mountains, nature</rdf:li>\n   </rdf:Bag>\n  </dc:subject>\n </rdf:Description>\n</rdf:RDF>\n</x:xmpmeta>\n<?xpacket end='r'?>";
 
@@ -35,7 +34,7 @@ fn test_read_xmp_png() -> Result<(), image::ImageError> {
 
 #[test]
 #[cfg(feature = "webp")]
-fn test_read_xmp_webp() -> Result<(), image::ImageError> {
+fn test_read_xmp_webp() -> Result<(), ai_image::ImageError> {
     const XMP_WEBP_PATH: &str = "tests/images/webp/lossless_images/simple_xmp.webp";
     const EXPECTED_METADATA: &str = "<?xpacket begin='\u{feff}' id='W5M0MpCehiHzreSzNTczkc9d'?>\n<x:xmpmeta xmlns:x='adobe:ns:meta/' x:xmptk='Image::ExifTool 13.25'>\n<rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'>\n\n <rdf:Description rdf:about=''\n  xmlns:dc='http://purl.org/dc/elements/1.1/'>\n  <dc:subject>\n   <rdf:Bag>\n    <rdf:li>sunset, mountains, nature</rdf:li>\n   </rdf:Bag>\n  </dc:subject>\n </rdf:Description>\n</rdf:RDF>\n</x:xmpmeta>\n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n<?xpacket end='w'?>";
     let img_path = PathBuf::from_str(XMP_WEBP_PATH).unwrap();
@@ -52,7 +51,7 @@ fn test_read_xmp_webp() -> Result<(), image::ImageError> {
 
 #[test]
 #[cfg(feature = "tiff")]
-fn test_read_xmp_tiff() -> Result<(), image::ImageError> {
+fn test_read_xmp_tiff() -> Result<(), ai_image::ImageError> {
     const XMP_TIFF_PATH: &str = "tests/images/tiff/testsuite/l1_xmp.tiff";
     const EXPECTED_METADATA: &str = "<?xpacket begin='\u{feff}' id='W5M0MpCehiHzreSzNTczkc9d'?>\n<x:xmpmeta xmlns:x='adobe:ns:meta/' x:xmptk='Image::ExifTool 13.25'>\n<rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'>\n\n <rdf:Description rdf:about=''\n  xmlns:dc='http://purl.org/dc/elements/1.1/'>\n  <dc:subject>\n   <rdf:Bag>\n    <rdf:li>sunset, mountains, nature</rdf:li>\n   </rdf:Bag>\n  </dc:subject>\n </rdf:Description>\n</rdf:RDF>\n</x:xmpmeta>\n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n                                                                                                    \n<?xpacket end='w'?>";
     let img_path = PathBuf::from_str(XMP_TIFF_PATH).unwrap();
@@ -68,7 +67,7 @@ fn test_read_xmp_tiff() -> Result<(), image::ImageError> {
 
 #[test]
 #[cfg(feature = "jpeg")]
-fn test_read_iptc_jpeg() -> Result<(), image::ImageError> {
+fn test_read_iptc_jpeg() -> Result<(), ai_image::ImageError> {
     const IPTC_JPG_PATH: &str = "tests/images/jpg/iptc.jpg";
     const EXPECTED_METADATA: &[u8] = &[
         56, 66, 73, 77, 4, 4, 0, 0, 0, 0, 0, 99, 28, 2, 90, 0, 8, 66, 117, 100, 97, 112, 101, 115,
@@ -90,7 +89,7 @@ fn test_read_iptc_jpeg() -> Result<(), image::ImageError> {
 
 #[test]
 #[cfg(feature = "png")]
-fn test_read_iptc_png() -> Result<(), image::ImageError> {
+fn test_read_iptc_png() -> Result<(), ai_image::ImageError> {
     const IPTC_PNG_PATH: &str = "tests/images/png/iptc.png";
     const EXPECTED_METADATA: &[u8] = &[
         10, 73, 80, 84, 67, 32, 112, 114, 111, 102, 105, 108, 101, 10, 32, 32, 32, 32, 32, 32, 57,
@@ -118,7 +117,7 @@ fn test_read_iptc_png() -> Result<(), image::ImageError> {
 
 #[test]
 #[cfg(feature = "jpeg")]
-fn test_read_xmp_jpeg() -> Result<(), image::ImageError> {
+fn test_read_xmp_jpeg() -> Result<(), ai_image::ImageError> {
     const IMG_PATH: &str = "tests/images/jpg/exif-xmp-metadata.jpg";
     const EXPECTED_METADATA: &[u8] = include_bytes!("images/jpg/expected_xmp.bin");
     let img_path = PathBuf::from_str(IMG_PATH).unwrap();

@@ -1,11 +1,10 @@
 //! An example of opening an image.
-extern crate ai_image as image;
 
 use std::env;
 use std::fs::File;
 use std::path::Path;
 
-use image::{GenericImageView, ImageFormat};
+use ai_image::{GenericImageView, ImageFormat};
 
 fn main() {
     let file = if env::args().count() == 2 {
@@ -16,7 +15,7 @@ fn main() {
 
     // Use the open function to load an image from a Path.
     // ```open``` returns a dynamic image.
-    let im = image::open(Path::new(&file)).unwrap();
+    let im = ai_image::open(Path::new(&file)).unwrap();
 
     // The dimensions method returns the images width and height
     println!("dimensions {:?}", im.dimensions());

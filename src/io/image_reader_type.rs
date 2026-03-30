@@ -29,8 +29,8 @@ enum Format {
 /// the image contained can be performed by constructing the reader and immediately consuming it.
 ///
 /// ```no_run
-/// # use image::ImageError;
-/// # use image::ImageReader;
+/// # use ai_image::ImageError;
+/// # use ai_image::ImageReader;
 /// # fn main() -> Result<(), ImageError> {
 /// let image = ImageReader::open("path/to/image.png")?
 ///     .decode()?;
@@ -42,11 +42,11 @@ enum Format {
 /// example with a `pnm` black-and-white subformat that encodes its pixel matrix with ascii values.
 ///
 /// ```
-/// # use image::ImageError;
-/// # use image::ImageReader;
+/// # use ai_image::ImageError;
+/// # use ai_image::ImageReader;
 /// # fn main() -> Result<(), ImageError> {
 /// use std::io::Cursor;
-/// use image::ImageFormat;
+/// use ai_image::ImageFormat;
 ///
 /// let raw_data = b"P1 2 2\n\
 ///     0 1\n\
@@ -244,8 +244,8 @@ impl<'a, R: 'a + BufRead + Seek> ImageReader<R> {
     /// not be directly controlled.
     ///
     /// ```no_run
-    /// # use image::ImageError;
-    /// # use image::ImageReader;
+    /// # use ai_image::ImageError;
+    /// # use ai_image::ImageReader;
     /// # fn main() -> Result<(), ImageError> {
     /// let image = ImageReader::open("image.unknown")?
     ///     .with_guessed_format()?

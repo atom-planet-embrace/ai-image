@@ -1,14 +1,13 @@
 #![no_main]
 #[macro_use] extern crate libfuzzer_sys;
-extern crate ai_image as image;
 
 fuzz_target!(|data: &[u8]| {
     let _ = decode(data);
 });
 
-fn decode(data: &[u8]) -> Result<(), image::ImageError> {
-    use image::ImageDecoder;
-    let decoder = image::codecs::tga::TgaDecoder::new(std::io::Cursor::new(data))?;
+fn decode(data: &[u8]) -> Result<(), ai_image::ImageError> {
+    use ai_image::ImageDecoder;
+    let decoder = ai_image::codecs::tga::TgaDecoder::new(std::io::Cursor::new(data))?;
     if decoder.total_bytes() > 4_000_000 {
         return Ok(());
     }

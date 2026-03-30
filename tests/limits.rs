@@ -13,11 +13,10 @@
 //!
 //! These tests also don't cover animation (yet). Adding tests for that would be very welcome too.
 
-extern crate ai_image as image;
 
 use std::io::Cursor;
 
-use image::{
+use ai_image::{
     load_from_memory_with_format, ImageDecoder, ImageFormat, ImageReader, Limits, RgbImage,
 };
 
@@ -61,7 +60,7 @@ fn load_through_reader(
     input: &[u8],
     format: ImageFormat,
     limits: Limits,
-) -> Result<image::DynamicImage, image::ImageError> {
+) -> Result<ai_image::DynamicImage, ai_image::ImageError> {
     let mut reader = ImageReader::new(Cursor::new(input));
     reader.set_format(format);
     reader.limits(limits);
@@ -71,14 +70,14 @@ fn load_through_reader(
 #[test]
 #[cfg(feature = "gif")]
 fn gif() {
-    use image::codecs::gif::GifDecoder;
+    use ai_image::codecs::gif::GifDecoder;
 
     let image = test_image(ImageFormat::Gif);
     // sanity check that our image loads successfully without limits
     assert!(load_from_memory_with_format(&image, ImageFormat::Gif).is_ok());
     // check that the limits implementation is not overly restrictive
     assert!(load_through_reader(&image, ImageFormat::Gif, permissive_limits()).is_ok());
-    // image::ImageReader
+    // ai_image::ImageReader
     assert!(load_through_reader(&image, ImageFormat::Gif, width_height_limits()).is_err());
     assert!(load_through_reader(&image, ImageFormat::Gif, allocation_limits()).is_err()); // BROKEN!
 
@@ -101,14 +100,14 @@ fn gif() {
 #[test]
 #[cfg(feature = "png")]
 fn png() {
-    use image::codecs::png::PngDecoder;
+    use ai_image::codecs::png::PngDecoder;
 
     let image = test_image(ImageFormat::Png);
     // sanity check that our image loads successfully without limits
     assert!(load_from_memory_with_format(&image, ImageFormat::Png).is_ok());
     // check that the limits implementation is not overly restrictive
     assert!(load_through_reader(&image, ImageFormat::Png, permissive_limits()).is_ok());
-    // image::ImageReader
+    // ai_image::ImageReader
     assert!(load_through_reader(&image, ImageFormat::Png, width_height_limits()).is_err());
     assert!(load_through_reader(&image, ImageFormat::Png, allocation_limits()).is_err());
 
@@ -128,14 +127,14 @@ fn png() {
 #[test]
 #[cfg(feature = "jpeg")]
 fn jpeg() {
-    use image::codecs::jpeg::JpegDecoder;
+    use ai_image::codecs::jpeg::JpegDecoder;
 
     let image = test_image(ImageFormat::Jpeg);
     // sanity check that our image loads successfully without limits
     assert!(load_from_memory_with_format(&image, ImageFormat::Jpeg).is_ok());
     // check that the limits implementation is not overly restrictive
     assert!(load_through_reader(&image, ImageFormat::Jpeg, permissive_limits()).is_ok());
-    // image::ImageReader
+    // ai_image::ImageReader
     assert!(load_through_reader(&image, ImageFormat::Jpeg, width_height_limits()).is_err());
     assert!(load_through_reader(&image, ImageFormat::Jpeg, allocation_limits()).is_err());
 
@@ -148,14 +147,14 @@ fn jpeg() {
 #[test]
 #[cfg(feature = "webp")]
 fn webp() {
-    use image::codecs::webp::WebPDecoder;
+    use ai_image::codecs::webp::WebPDecoder;
 
     let image = test_image(ImageFormat::WebP);
     // sanity check that our image loads successfully without limits
     assert!(load_from_memory_with_format(&image, ImageFormat::WebP).is_ok());
     // check that the limits implementation is not overly restrictive
     assert!(load_through_reader(&image, ImageFormat::WebP, permissive_limits()).is_ok());
-    // image::ImageReader
+    // ai_image::ImageReader
     assert!(load_through_reader(&image, ImageFormat::WebP, width_height_limits()).is_err());
     assert!(load_through_reader(&image, ImageFormat::WebP, allocation_limits()).is_err());
 
@@ -168,7 +167,7 @@ fn webp() {
 #[test]
 #[cfg(feature = "tiff")]
 fn tiff() {
-    use image::codecs::tiff::TiffDecoder;
+    use ai_image::codecs::tiff::TiffDecoder;
 
     let image = test_image(ImageFormat::Tiff);
     // sanity check that our image loads successfully without limits
@@ -182,7 +181,7 @@ fn tiff() {
     tiff_permissive_limits.max_alloc = Some((WIDTH * HEIGHT * 10).into()); // `* 9` would be exactly three output buffers, `* 10`` has some slack space
     load_through_reader(&image, ImageFormat::Tiff, tiff_permissive_limits).unwrap();
 
-    // image::ImageReader
+    // ai_image::ImageReader
     assert!(load_through_reader(&image, ImageFormat::Tiff, width_height_limits()).is_err());
     assert!(load_through_reader(&image, ImageFormat::Tiff, allocation_limits()).is_err());
 
@@ -195,14 +194,14 @@ fn tiff() {
 #[test]
 #[cfg(all(feature = "avif", feature = "avif-native"))]
 fn avif() {
-    use image::codecs::avif::AvifDecoder;
+    use ai_image::codecs::avif::AvifDecoder;
 
     let image = test_image(ImageFormat::Avif);
     // sanity check that our image loads successfully without limits
     assert!(load_from_memory_with_format(&image, ImageFormat::Avif).is_ok());
     // check that the limits implementation is not overly restrictive
     assert!(load_through_reader(&image, ImageFormat::Avif, permissive_limits()).is_ok());
-    // image::ImageReader
+    // ai_image::ImageReader
     assert!(load_through_reader(&image, ImageFormat::Avif, width_height_limits()).is_err());
     assert!(load_through_reader(&image, ImageFormat::Avif, allocation_limits()).is_err());
 
@@ -215,14 +214,14 @@ fn avif() {
 #[test]
 #[cfg(feature = "bmp")]
 fn bmp() {
-    use image::codecs::bmp::BmpDecoder;
+    use ai_image::codecs::bmp::BmpDecoder;
 
     let image = test_image(ImageFormat::Bmp);
     // sanity check that our image loads successfully without limits
     assert!(load_from_memory_with_format(&image, ImageFormat::Bmp).is_ok());
     // check that the limits implementation is not overly restrictive
     assert!(load_through_reader(&image, ImageFormat::Bmp, permissive_limits()).is_ok());
-    // image::ImageReader
+    // ai_image::ImageReader
     assert!(load_through_reader(&image, ImageFormat::Bmp, width_height_limits()).is_err());
     assert!(load_through_reader(&image, ImageFormat::Bmp, allocation_limits()).is_err());
 
