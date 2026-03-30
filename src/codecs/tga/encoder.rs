@@ -1,7 +1,7 @@
-use alloc::vec::Vec;
 use super::header::Header;
 use crate::{codecs::tga::header::ImageType, error::EncodingError, utils::vec_try_with_capacity};
 use crate::{DynamicImage, ExtendedColorType, ImageEncoder, ImageError, ImageFormat, ImageResult};
+use alloc::vec::Vec;
 use core::{error, fmt};
 use no_std_io::io::Write;
 

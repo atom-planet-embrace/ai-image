@@ -1,8 +1,8 @@
 use alloc::{format, vec, vec::Vec};
 use core::cmp::Ordering;
+use no_std_io::io::{Result, Write};
 #[cfg(not(feature = "std"))]
 use num_traits::Float as _;
-use no_std_io::io::{Result, Write};
 
 use crate::codecs::hdr::{rgbe8, Rgbe8Pixel, SIGNATURE};
 use crate::color::Rgb;

@@ -1,7 +1,7 @@
 use alloc::{boxed::Box, vec::Vec};
 use byteorder_lite::{LittleEndian, ReadBytesExt};
-use no_std_io::io::{BufRead, Read, Seek, SeekFrom};
 use core::{error, fmt};
+use no_std_io::io::{BufRead, Read, Seek, SeekFrom};
 
 use crate::color::ColorType;
 use crate::error::{

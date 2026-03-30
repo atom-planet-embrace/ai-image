@@ -1,6 +1,6 @@
 //! Encoding of PNM Images
-use alloc::{borrow::ToOwned, format, vec::Vec};
 use crate::utils::vec_try_with_capacity;
+use alloc::{borrow::ToOwned, format, vec::Vec};
 use core::fmt;
 use no_std_io::io;
 use no_std_io::io::Write;

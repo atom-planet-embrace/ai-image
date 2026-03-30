@@ -5,10 +5,10 @@
 //!
 //! # Related Links
 //! * <http://partners.adobe.com/public/developer/tiff/index.html> - The TIFF specification
-use alloc::{string::ToString, boxed::Box, format, vec, vec::Vec};
-use no_std_io::io::{self, BufRead, Cursor, Read, Seek, Write};
+use alloc::{boxed::Box, format, string::ToString, vec, vec::Vec};
 use core::marker::PhantomData;
 use core::mem;
+use no_std_io::io::{self, BufRead, Cursor, Read, Seek, Write};
 
 use tiff::decoder::{Decoder, DecodingResult};
 use tiff::tags::Tag;

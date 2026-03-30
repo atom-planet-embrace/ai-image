@@ -1,7 +1,7 @@
 use alloc::{borrow::ToOwned, boxed::Box, vec::Vec};
+use no_std_io::io::{Seek, Write};
 #[cfg(feature = "std")]
 use std::fs::File;
-use no_std_io::io::{Seek, Write};
 #[cfg(feature = "std")]
 use std::path::Path;
 
@@ -18,14 +18,14 @@ use crate::io::free_functions::{self, encoder_for_format};
 use crate::math::resize_dimensions;
 use crate::metadata::Orientation;
 use crate::traits::Pixel;
+#[cfg(feature = "std")]
+use crate::ImageReader;
 use crate::{
     imageops,
     metadata::{Cicp, CicpColorPrimaries, CicpTransferCharacteristics},
     ConvertColorOptions, ExtendedColorType, GenericImage, GenericImageView, ImageDecoder,
     ImageEncoder, ImageFormat, Luma, LumaA,
 };
-#[cfg(feature = "std")]
-use crate::ImageReader;
 
 /// A Dynamic Image
 ///

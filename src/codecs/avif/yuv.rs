@@ -1,9 +1,9 @@
-use alloc::{borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
 use crate::error::DecodingError;
 use crate::{ImageError, ImageFormat};
-use num_traits::AsPrimitive;
+use alloc::{borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
 use core::fmt::{Display, Formatter};
 use core::mem::size_of;
+use num_traits::AsPrimitive;
 
 #[derive(Debug, Copy, Clone)]
 /// Representation of inversion matrix

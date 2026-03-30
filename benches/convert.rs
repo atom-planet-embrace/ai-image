@@ -1,5 +1,5 @@
-use criterion::{black_box, criterion_group, criterion_main, Criterion};
 use ai_image::{DynamicImage, ImageBuffer, Rgba};
+use criterion::{black_box, criterion_group, criterion_main, Criterion};
 
 pub fn bench_cast_intra_colorspace(c: &mut Criterion) {
     let rgb_source =
@@ -36,8 +36,11 @@ pub fn bench_cast_intra_colorspace(c: &mut Criterion) {
         b.iter(|| black_box(&luma_source).to_luma_alpha16());
     });
 
-    let la_source =
-        DynamicImage::ImageLumaA8(ImageBuffer::from_pixel(256, 256, ai_image::LumaA([0u8, 255])));
+    let la_source = DynamicImage::ImageLumaA8(ImageBuffer::from_pixel(
+        256,
+        256,
+        ai_image::LumaA([0u8, 255]),
+    ));
 
     c.bench_function("cast_dynamic_luma_alpha8_luma_alpha16", |b| {
         b.iter(|| black_box(&la_source).to_luma_alpha16());
@@ -51,8 +54,11 @@ pub fn bench_cast_intra_colorspace(c: &mut Criterion) {
         b.iter(|| black_box(&la_source).to_luma16());
     });
 
-    let la_source =
-        DynamicImage::ImageLumaA16(ImageBuffer::from_pixel(256, 256, ai_image::LumaA([0u16, 255])));
+    let la_source = DynamicImage::ImageLumaA16(ImageBuffer::from_pixel(
+        256,
+        256,
+        ai_image::LumaA([0u16, 255]),
+    ));
 
     c.bench_function("cast_dynamic_luma_alpha16_luma_alpha16", |b| {
         b.iter(|| black_box(&la_source).to_luma_alpha16());

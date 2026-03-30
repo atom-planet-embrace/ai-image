@@ -1,19 +1,37 @@
 use alloc::boxed::Box;
-#[cfg(feature = "std")]
-use std::fs::File;
-use no_std_io::io::{self, Seek, Write};
-#[cfg(feature = "std")]
-use no_std_io::io::BufRead;
-#[cfg(feature = "std")]
-use std::path::Path;
 use core::iter;
 use core::mem::size_of;
+#[cfg(feature = "std")]
+use no_std_io::io::BufRead;
+use no_std_io::io::{self, Seek, Write};
+#[cfg(feature = "std")]
+use std::fs::File;
+#[cfg(feature = "std")]
+use std::path::Path;
 
+#[cfg(all(
+    not(feature = "std"),
+    any(
+        feature = "png",
+        feature = "jpeg",
+        feature = "gif",
+        feature = "bmp",
+        feature = "ico",
+        feature = "pnm",
+        feature = "tga",
+        feature = "tiff",
+        feature = "exr",
+        feature = "avif",
+        feature = "qoi",
+        feature = "webp",
+        feature = "hdr",
+        feature = "ff"
+    )
+))]
+use crate::codecs::*;
 use crate::io::encoder::ImageEncoderBoxed;
 #[cfg(feature = "std")]
 use crate::{codecs::*, ExtendedColorType, ImageReader};
-#[cfg(all(not(feature = "std"), any(feature = "png", feature = "jpeg", feature = "gif", feature = "bmp", feature = "ico", feature = "pnm", feature = "tga", feature = "tiff", feature = "exr", feature = "avif", feature = "qoi", feature = "webp", feature = "hdr", feature = "ff")))]
-use crate::codecs::*;
 
 use crate::error::{
     ImageError, ImageFormatHint, ImageResult, LimitError, LimitErrorKind, ParameterError,

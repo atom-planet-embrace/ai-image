@@ -13,8 +13,8 @@ use image::codecs::tiff::TiffDecoder;
 #[cfg(feature = "webp")]
 use image::codecs::webp::WebPDecoder;
 
-extern crate glob;
 extern crate ai_image as image;
+extern crate glob;
 
 #[test]
 #[cfg(feature = "png")]

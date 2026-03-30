@@ -1,9 +1,9 @@
 use alloc::vec::Vec;
+use core::fmt;
+use core::ops::{Deref, DerefMut};
 use rayon::iter::plumbing::*;
 use rayon::iter::{IndexedParallelIterator, ParallelIterator};
 use rayon::slice::{ChunksExact, ChunksExactMut, ParallelSlice, ParallelSliceMut};
-use core::fmt;
-use core::ops::{Deref, DerefMut};
 
 use crate::traits::Pixel;
 use crate::ImageBuffer;

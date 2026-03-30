@@ -1,9 +1,9 @@
 //! Functions for performing affine transformations.
 
-use alloc::vec::Vec;
 use crate::error::{ImageError, ParameterError, ParameterErrorKind};
 use crate::traits::Pixel;
 use crate::{GenericImage, GenericImageView, ImageBuffer};
+use alloc::vec::Vec;
 
 /// Rotate an image 90 degrees clockwise.
 pub fn rotate90<I: GenericImageView>(

@@ -1,8 +1,8 @@
-use alloc::{boxed::Box, vec::Vec};
 use crate::animation::Frames;
 use crate::color::{ColorType, ExtendedColorType};
 use crate::error::ImageResult;
 use crate::metadata::{LoopCount, Orientation};
+use alloc::{boxed::Box, vec::Vec};
 
 /// The trait that all decoders implement
 pub trait ImageDecoder {

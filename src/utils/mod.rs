@@ -1,7 +1,7 @@
 //!  Utilities
 
-use alloc::{borrow::ToOwned, vec::Vec};
 use alloc::collections::TryReserveError;
+use alloc::{borrow::ToOwned, vec::Vec};
 use core::iter::repeat;
 
 #[inline(always)]

@@ -1,7 +1,7 @@
 use alloc::{boxed::Box, format, string::String, vec::Vec};
-use no_std_io::io::{BufRead, Seek};
-use core::marker::PhantomData;
 use core::fmt;
+use core::marker::PhantomData;
+use no_std_io::io::{BufRead, Seek};
 
 use zune_core::bytestream::ZCursor;
 

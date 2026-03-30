@@ -1,12 +1,12 @@
 //! Contains the generic `ImageBuffer` struct.
 use alloc::{vec, vec::Vec};
-use num_traits::Zero;
 use core::fmt;
 use core::marker::PhantomData;
 use core::ops::{Deref, DerefMut, Index, IndexMut, Range};
+use core::slice::{ChunksExact, ChunksExactMut};
+use num_traits::Zero;
 #[cfg(feature = "std")]
 use std::path::Path;
-use core::slice::{ChunksExact, ChunksExactMut};
 
 use crate::color::{FromColor, FromPrimitive, Luma, LumaA, Rgb, Rgba};
 use crate::error::{

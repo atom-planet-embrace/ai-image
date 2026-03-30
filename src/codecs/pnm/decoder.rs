@@ -1,12 +1,12 @@
-use alloc::{borrow::ToOwned, string::ToString, boxed::Box, format, string::String, vec::Vec};
+use alloc::{borrow::ToOwned, boxed::Box, format, string::String, string::ToString, vec::Vec};
 use core::error;
 use core::fmt::{self, Display};
-use no_std_io::io::{self, Read};
 use core::mem::size_of;
-#[cfg(not(feature = "std"))]
-use num_traits::float::FloatCore as _;
 use core::num::ParseIntError;
 use core::str;
+use no_std_io::io::{self, Read};
+#[cfg(not(feature = "std"))]
+use num_traits::float::FloatCore as _;
 
 use super::{ArbitraryHeader, ArbitraryTuplType, BitmapHeader, GraymapHeader, PixmapHeader};
 use super::{HeaderRecord, PnmHeader, PnmSubtype, SampleEncoding};

@@ -1,10 +1,10 @@
-use alloc::{borrow::ToOwned, boxed::Box, format, vec, vec::Vec};
 use crate::utils::vec_try_with_capacity;
+use alloc::{borrow::ToOwned, boxed::Box, format, vec, vec::Vec};
 use core::cmp::{self, Ordering};
-use no_std_io::io::{self, BufRead, Seek, SeekFrom};
 use core::iter::{repeat, Rev};
 use core::slice::ChunksExactMut;
 use core::{error, fmt};
+use no_std_io::io::{self, BufRead, Seek, SeekFrom};
 
 use byteorder_lite::{LittleEndian, ReadBytesExt};
 

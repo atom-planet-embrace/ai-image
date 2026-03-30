@@ -20,7 +20,7 @@
 //!     - meta data is lost
 //!     - dwaa/dwab compressed images not supported yet by the exr library
 //!     - (chroma) subsampling not supported yet by the exr library
-use alloc::{string::ToString, boxed::Box, vec};
+use alloc::{boxed::Box, string::ToString, vec};
 use exr::prelude::*;
 
 use crate::error::{DecodingError, ImageFormatHint, UnsupportedError, UnsupportedErrorKind};
@@ -337,8 +337,8 @@ fn to_image_err(exr_error: Error) -> ImageError {
 mod test {
     use super::*;
 
-    use std::fs::File;
     use no_std_io::io::{BufReader, Cursor};
+    use std::fs::File;
     use std::path::{Path, PathBuf};
 
     use crate::error::{LimitError, LimitErrorKind};

@@ -1,4 +1,3 @@
-use alloc::{boxed::Box, vec::Vec};
 use super::header::{Header, ImageType, ALPHA_BIT_MASK};
 use crate::error::DecodingError;
 use crate::io::ReadExt;
@@ -8,6 +7,7 @@ use crate::{
     error::{ImageError, ImageResult, UnsupportedError, UnsupportedErrorKind},
     ImageDecoder, ImageFormat,
 };
+use alloc::{boxed::Box, vec::Vec};
 use byteorder_lite::ReadBytesExt;
 use no_std_io::io::{self, Read};
 

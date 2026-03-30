@@ -283,7 +283,20 @@ impl ExtendedColorType {
     }
 
     /// Returns the number of bytes required to hold a width x height image of this color type.
-    #[cfg(any(feature = "png", feature = "jpeg", feature = "gif", feature = "tiff", feature = "tga", feature = "webp", feature = "qoi", feature = "exr", feature = "avif", feature = "bmp", feature = "ico", feature = "pnm"))]
+    #[cfg(any(
+        feature = "png",
+        feature = "jpeg",
+        feature = "gif",
+        feature = "tiff",
+        feature = "tga",
+        feature = "webp",
+        feature = "qoi",
+        feature = "exr",
+        feature = "avif",
+        feature = "bmp",
+        feature = "ico",
+        feature = "pnm"
+    ))]
     pub(crate) fn buffer_size(self, width: u32, height: u32) -> u64 {
         let bpp = self.bits_per_pixel() as u64;
         let row_pitch = (width as u64 * bpp).div_ceil(8);

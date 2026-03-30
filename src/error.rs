@@ -13,8 +13,8 @@
 //!
 //! [`ImageError`]: enum.ImageError.html
 
-use alloc::collections::TryReserveError;
 use alloc::boxed::Box;
+use alloc::collections::TryReserveError;
 use alloc::string::String;
 use core::error::Error;
 use core::fmt;

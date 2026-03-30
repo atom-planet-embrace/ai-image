@@ -5,9 +5,9 @@
 //! # Related Links
 //! * <http://www.w3.org/TR/PNG/> - The PNG Specification
 
-use alloc::{string::ToString, borrow::Cow, boxed::Box, vec, vec::Vec};
-use no_std_io::io::{BufRead, Seek, Write};
+use alloc::{borrow::Cow, boxed::Box, string::ToString, vec, vec::Vec};
 use core::num::NonZeroU32;
+use no_std_io::io::{BufRead, Seek, Write};
 
 use png::{BlendOp, DeflateCompression, DisposeOp};
 

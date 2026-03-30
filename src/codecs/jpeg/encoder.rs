@@ -1,7 +1,7 @@
 #![allow(clippy::too_many_arguments)]
 use alloc::{borrow::Cow, vec, vec::Vec};
-use no_std_io::io::{self, Write};
 use core::{error, fmt};
+use no_std_io::io::{self, Write};
 #[cfg(not(feature = "std"))]
 use num_traits::float::FloatCore as _;
 

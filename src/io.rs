@@ -40,7 +40,8 @@ impl<R: io::Read> ReadExt for R {
         let initial_len = vec.len();
         // no_std_io::Error doesn't provide other()
         #[allow(clippy::io_other_error)]
-        vec.try_reserve(len).map_err(|_| io::Error::new(io::ErrorKind::Other, "allocation failed"))?;
+        vec.try_reserve(len)
+            .map_err(|_| io::Error::new(io::ErrorKind::Other, "allocation failed"))?;
         vec.resize(initial_len + len, 0);
         match self.read_exact(&mut vec[initial_len..]) {
             Ok(()) => Ok(()),

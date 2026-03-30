@@ -27,7 +27,10 @@ impl Read for GenericReader<'_> {
     fn read(&mut self, buf: &mut [u8]) -> no_std_io::io::Result<usize> {
         self.0.read(buf)
     }
-    fn read_vectored(&mut self, bufs: &mut [no_std_io::io::IoSliceMut<'_>]) -> no_std_io::io::Result<usize> {
+    fn read_vectored(
+        &mut self,
+        bufs: &mut [no_std_io::io::IoSliceMut<'_>],
+    ) -> no_std_io::io::Result<usize> {
         self.0.read_vectored(bufs)
     }
     fn read_to_end(&mut self, buf: &mut Vec<u8>) -> no_std_io::io::Result<usize> {

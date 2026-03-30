@@ -1,7 +1,7 @@
 use std::{fs, iter, path};
 
-use criterion::{criterion_group, criterion_main, Criterion};
 use ai_image::ImageFormat;
+use criterion::{criterion_group, criterion_main, Criterion};
 
 #[derive(Clone, Copy)]
 struct BenchDef {

@@ -1,5 +1,5 @@
-use criterion::{black_box, criterion_group, criterion_main, Criterion};
 use ai_image::{GenericImage, ImageBuffer, Rgba};
+use criterion::{black_box, criterion_group, criterion_main, Criterion};
 
 pub fn bench_copy_from(c: &mut Criterion) {
     let at = rect_from_xy_ranges(256..1280, 256..1280);

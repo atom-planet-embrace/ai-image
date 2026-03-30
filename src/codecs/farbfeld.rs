@@ -45,7 +45,9 @@ impl<R: Read> FarbfeldReader<R> {
         }
 
         let mut magic = [0u8; 8];
-        buffered_read.read_exact(&mut magic).map_err(ImageError::IoError)?;
+        buffered_read
+            .read_exact(&mut magic)
+            .map_err(ImageError::IoError)?;
         if &magic != b"farbfeld" {
             return Err(ImageError::Decoding(DecodingError::new(
                 ImageFormat::Farbfeld.into(),

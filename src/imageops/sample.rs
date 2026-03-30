@@ -4,11 +4,11 @@
 // for some of the theory behind image scaling and convolution
 
 use alloc::{boxed::Box, vec, vec::Vec};
+use core::f32;
+use core::ops::Mul;
 #[cfg(not(feature = "std"))]
 use num_traits::Float as _;
 use num_traits::{NumCast, ToPrimitive, Zero};
-use core::f32;
-use core::ops::Mul;
 
 use crate::imageops::filter_1d::{
     filter_2d_sep_la, filter_2d_sep_la_f32, filter_2d_sep_la_u16, filter_2d_sep_plane,

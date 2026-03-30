@@ -1,5 +1,5 @@
-use alloc::vec::Vec;
 use crate::{flat::ViewOfPixel, math::Rect, GenericImage, GenericImageView, ImageBuffer, Pixel};
+use alloc::vec::Vec;
 use core::ops::{Deref, DerefMut};
 
 /// A View into another image

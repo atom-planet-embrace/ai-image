@@ -5,8 +5,8 @@
 /// [AVIF]: https://aomediacodec.github.io/av1-avif/
 use alloc::{borrow::Cow, format, vec, vec::Vec};
 use core::cmp::min;
-use no_std_io::io::Write;
 use core::mem::size_of;
+use no_std_io::io::Write;
 
 use crate::buffer::ConvertBuffer;
 use crate::color::{FromColor, Luma, LumaA, Rgb, Rgba};

@@ -28,10 +28,10 @@
 #![allow(clippy::while_let_loop)]
 
 use alloc::{borrow::ToOwned, boxed::Box, format, vec, vec::Vec};
-use no_std_io::io::{self, BufRead, Cursor, Read, Seek, Write};
 use core::marker::PhantomData;
 use core::mem;
 use core::num::NonZeroU32;
+use no_std_io::io::{self, BufRead, Cursor, Read, Seek, Write};
 
 use gif::ColorOutput;
 use gif::{DisposalMethod, Frame};

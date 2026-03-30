@@ -160,23 +160,23 @@ pub use crate::flat::FlatSamples;
 pub use crate::traits::{EncodableLayout, Pixel, PixelWithColorType, Primitive};
 
 // Opening and loading images
+pub use crate::images::dynimage::write_buffer_with_format;
 #[cfg(feature = "std")]
 pub use crate::images::dynimage::{
     image_dimensions, load_from_memory, load_from_memory_with_format, open,
 };
-pub use crate::images::dynimage::write_buffer_with_format;
 pub use crate::io::free_functions::guess_format;
 #[cfg(feature = "std")]
 pub use crate::io::free_functions::{load, save_buffer, save_buffer_with_format};
 
+#[cfg(feature = "std")]
+pub use crate::io::image_reader_type::ImageReader;
 pub use crate::io::{
     decoder::{AnimationDecoder, ImageDecoder, ImageDecoderRect},
     encoder::ImageEncoder,
     format::ImageFormat,
     limits::{LimitSupport, Limits},
 };
-#[cfg(feature = "std")]
-pub use crate::io::image_reader_type::ImageReader;
 
 pub use crate::images::dynimage::DynamicImage;
 

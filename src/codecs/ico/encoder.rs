@@ -1,5 +1,5 @@
-use byteorder_lite::{LittleEndian, WriteBytesExt};
 use alloc::{borrow::Cow, format, vec::Vec};
+use byteorder_lite::{LittleEndian, WriteBytesExt};
 use no_std_io::io::{self, Write};
 
 use crate::codecs::png::PngEncoder;

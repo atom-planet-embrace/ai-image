@@ -1,10 +1,10 @@
 //! Decoding and encoding of QOI images
 
-use alloc::boxed::Box;
 use crate::error::{DecodingError, EncodingError, UnsupportedError, UnsupportedErrorKind};
 use crate::{
     ColorType, ExtendedColorType, ImageDecoder, ImageEncoder, ImageError, ImageFormat, ImageResult,
 };
+use alloc::boxed::Box;
 use no_std_io::io::{Read, Write};
 
 /// QOI decoder

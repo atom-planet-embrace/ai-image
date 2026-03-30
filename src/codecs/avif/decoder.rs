@@ -1,18 +1,21 @@
 //! Decoding of AVIF images.
-use alloc::{borrow::ToOwned, string::ToString, borrow::Cow, boxed::Box, format, string::String, vec, vec::Vec};
 use crate::error::{
     DecodingError, ImageFormatHint, LimitError, LimitErrorKind, UnsupportedError,
     UnsupportedErrorKind,
 };
 use crate::{ColorType, ImageDecoder, ImageError, ImageFormat, ImageResult};
+use alloc::{
+    borrow::Cow, borrow::ToOwned, boxed::Box, format, string::String, string::ToString, vec,
+    vec::Vec,
+};
 ///
 /// The [AVIF] specification defines an image derivative of the AV1 bitstream, an open video codec.
 ///
 /// [AVIF]: https://aomediacodec.github.io/av1-avif/
 use core::error::Error;
 use core::fmt::{Display, Formatter};
-use no_std_io::io::Read;
 use core::marker::PhantomData;
+use no_std_io::io::Read;
 
 use crate::codecs::avif::ycgco::{
     ycgco420_to_rgba10, ycgco420_to_rgba12, ycgco420_to_rgba8, ycgco422_to_rgba10,

@@ -1,9 +1,9 @@
-use alloc::vec::Vec;
 use crate::error::{ImageError, ImageResult};
 use crate::flat::ViewOfPixel;
 use crate::math::Rect;
 use crate::traits::Pixel;
 use crate::{ImageBuffer, SubImage};
+use alloc::vec::Vec;
 
 /// Trait to inspect an image.
 ///

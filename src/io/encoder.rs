@@ -1,6 +1,6 @@
-use alloc::{boxed::Box, vec::Vec};
 use crate::error::{ImageFormatHint, ImageResult, UnsupportedError, UnsupportedErrorKind};
 use crate::{ColorType, DynamicImage, ExtendedColorType};
+use alloc::{boxed::Box, vec::Vec};
 
 /// Nominally public but DO NOT expose this type.
 ///
