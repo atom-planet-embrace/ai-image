@@ -1,12 +1,11 @@
 name: Rust CI
 
 on:
+  workflow_dispatch:
   push:
-    branches: [ main, version-0.25 ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, version-0.25 ]
-  schedule:
-    - cron: '5 16 * * 6'
+    branches: [ main ]
 
 jobs:
   test_no_std:
