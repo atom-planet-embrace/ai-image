@@ -1,10 +1,7 @@
-# ai-image
+This is a fork of the [image](https://crates.io/crates/image) crate.
+The git repository is located at https://github.com/image-rs/image.
 
-> **Fork notice** — `ai-image` is a `no_std`-compatible fork of
-> [`image`](https://crates.io/crates/image) v0.25.10 (commit `76e57184`).
-> It replaces `std::io` with `no_std_io`, gates filesystem helpers behind
-> `feature = "std"`, and uses `ai-moxcms` in place of `moxcms`.
-> Upstream repo: <https://github.com/image-rs/image>
+# ai-image
 
 ## An Image Processing Library
 
