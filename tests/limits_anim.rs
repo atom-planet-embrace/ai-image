@@ -1,4 +1,5 @@
 //! Test enforcement of size and memory limits for animation decoding APIs.
+extern crate ai_image as image;
 
 use image::{AnimationDecoder, ImageDecoder, ImageResult, Limits};
 

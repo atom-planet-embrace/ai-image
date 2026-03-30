@@ -1,3 +1,5 @@
+extern crate ai_image as image;
+
 use image::buffer::ConvertBuffer;
 use image::{ImageBuffer, Rgb, Rgba};
 

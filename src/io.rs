@@ -1,6 +1,8 @@
 //! Input and output of images.
 
 #[cfg(any(feature = "tga", feature = "dds", feature = "bmp"))]
+use alloc::vec::Vec;
+#[cfg(any(feature = "tga", feature = "dds", feature = "bmp"))]
 use no_std_io::io;
 
 /// The decoder traits.
@@ -31,12 +33,12 @@ pub(crate) use self::image_reader_type::ImageReader;
 /// Adds `read_exact_vec`
 #[cfg(any(feature = "tga", feature = "dds", feature = "bmp"))]
 pub(crate) trait ReadExt {
-    fn read_exact_vec(&mut self, vec: &mut alloc::vec::Vec<u8>, len: usize) -> io::Result<()>;
+    fn read_exact_vec(&mut self, vec: &mut Vec<u8>, len: usize) -> io::Result<()>;
 }
 
 #[cfg(any(feature = "tga", feature = "dds", feature = "bmp"))]
 impl<R: io::Read> ReadExt for R {
-    fn read_exact_vec(&mut self, vec: &mut alloc::vec::Vec<u8>, len: usize) -> io::Result<()> {
+    fn read_exact_vec(&mut self, vec: &mut Vec<u8>, len: usize) -> io::Result<()> {
         let initial_len = vec.len();
         // no_std_io::Error doesn't provide other()
         #[allow(clippy::io_other_error)]

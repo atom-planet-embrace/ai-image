@@ -1,4 +1,6 @@
 //! Compares the decoding results with reference renderings.
+extern crate ai_image as image;
+
 use std::fs;
 use std::io;
 use std::path::PathBuf;

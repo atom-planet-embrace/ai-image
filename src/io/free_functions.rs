@@ -1,4 +1,5 @@
 use alloc::boxed::Box;
+use alloc::vec::Vec;
 use core::iter;
 use core::mem::size_of;
 #[cfg(feature = "std")]
@@ -237,7 +238,7 @@ where
     );
 
     let mut current_scanline = 0;
-    let mut tmp = alloc::vec::Vec::new();
+    let mut tmp = Vec::new();
     let mut tmp_scanline = None;
 
     {
@@ -333,7 +334,7 @@ where
 /// of the output buffer is guaranteed.
 ///
 /// Panics if there isn't enough memory to decode the image.
-pub(crate) fn decoder_to_vec<T>(decoder: impl ImageDecoder) -> ImageResult<alloc::vec::Vec<T>>
+pub(crate) fn decoder_to_vec<T>(decoder: impl ImageDecoder) -> ImageResult<Vec<T>>
 where
     T: crate::traits::Primitive + bytemuck::Pod,
 {
